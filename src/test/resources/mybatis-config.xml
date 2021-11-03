@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- 기본적인 DB상의 Null타입의 값은 Null로 출력되도록 변경.  -->
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+	
+	<typeAliases>
+		<!-- 필요한 TypeAlias는 제작후 주석달아놓도록 할 것. -->
+	</typeAliases>
+	
+	<mappers>
+	<!-- 맵퍼 파일은 각 파트별로 필요한대로 만들고 applicationContext에서 찾는 mapper에 매칭시키도록 함. -->
+	</mappers>
+</configuration>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+<!-- component scan 지정 필요 -->
+
+<!-- 일단은 프로젝트 java src 이하의 모든 컴포넌트를 스캔함. 이후 수정될 수 있음. -->
+<context:component-scan base-package="com.project.petmily"></context:component-scan>
+
+<!-- dataSource 지정. database 서버 회의 후 결정되면 지정 후 한번에 수정 후 github에 push예정 -->
+<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+<property name = "driverClassName" value="oracle.jdbc.OracleDriver"/>
+<property name="url" value="jdbc:oracle:thin:@주소:포트 미지정"/>
+<property name = "username" value="미지정"/>
+<property name = "password" value="미지정"/>
+
+</bean>
+
+<!-- database 당겨오기 위한 SqlSession factory 및 SqlTamplate 제작 -->
+<bean id ="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+
+<property name="dataSource" ref="dataSource" /> <!-- property name 고정임. 수정 X  -->
+
+<property name="configLocation" value="classpath:mybatis-config.xml"/> <!-- property name 고정임. 수정 X  -->
+
+<!-- mapper 로케이션은 각VO에 getter / setter가 지정된 후 사용 가능 -->
+<property name="mapperLocations" value="classpath:mappings/**/*Mapper.xml"/> <!-- property name 고정임. 수정 X  -->
+</bean>
+
+
+<bean class="org.mybatis.spring.SqlSessionTemplate">
+<constructor-arg ref = "sqlSessionFactory"></constructor-arg>
+
+</bean>
+
+</beans>
