@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="favorite">
+
+<select id="getMyFavoriteList" resultType="com.project.petmily.favorite.FavoriteVO" parameterType="com.project.petmily.favorite.FavoriteVO">
+	select * from favorite where midx= #{midx}
+</select>
+
+<select id="getFavoriteCheck" resultType="com.project.petmily.favorite.FavoriteVO" parameterType="com.project.petmily.favorite.FavoriteVO">
+	select * from favorite where midx = #{midx} and bidx = #{bidx}
+</select>
+
+<insert id="insertFavorite"  parameterType="com.project.petmily.favorite.FavoriteVO">
+INSERT INTO FAVORITE (FIDX, MIDX, BIDX)
+VALUES((SELECT NVL(MAX(FIDX),0)+1 FROM FAVORITE), #{midx}, #{bidx})
+</insert>
+
+<delete id="deleteFavorite"  parameterType="com.project.petmily.favorite.FavoriteVO">
+DELETE FROM FAVORITE WHERE MIDX = #{midx} AND BIDX = #{bidx}
+</delete>
+
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="report">
+<!-- 게시물에 대한 신고 여부 -->
+<select id="getReportBoard" resultType="com.project.petmily.report.ReportVO" parameterType="com.project.petmily.report.ReportVO">
+	SELECT * FROM REPORT WHERE RTYPE=1 AND RNUM=#{rnum} AND RFROM=#{rfrom}
+</select>
+
+<!-- 댓글에 대한 신고여부 -->
+<select id="getReportReply" resultType="com.project.petmily.report.ReportVO" parameterType="com.project.petmily.report.ReportVO">
+	SELECT * FROM REPORT WHERE RTYPE=2 AND RNUM=#{rnum} AND RFROM=#{rfrom}
+</select>
+
+<!-- 게시글을 신고하기 -->
+<insert id="insertReport"  parameterType="com.project.petmily.report.ReportVO">
+INSERT INTO REPORT (RIDX,RFROM,RTO,RTYPE,RNUM,RCONTENT,RREGDATE) 
+VALUES(
+(SELECT NVL(MAX(RIDX),0)+1 FROM REPORT), #{rfrom},#{rto}, #{rtype}, #{rnum}, #{rcontent}, SYSDATE
+)
+</insert>
+
+
+</mapper>

@@ -28,7 +28,7 @@
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
 
-	<!-- 서블릿명 : petServlet,  -->
+	<!-- 서블릿명 : petServlet  -->
 	<servlet>
 		<servlet-name>petServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

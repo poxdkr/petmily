@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="advertise">
+<select id="getAdvertiseList" resultType="com.project.petmily.advertise.AdvertiseVO">
+	SELECT * FROM ADVERTISE
+</select>
+
+<select id="getAdvertise" resultType="com.project.petmily.advertise.AdvertiseVO" parameterType="com.project.petmily.advertise.AdvertiseVO">
+	SELECT * FROM ADVERTISE 
+	WHERE AIDX = #{aidx} 
+</select>
+
+<update id="plusCntAd" parameterType="com.project.petmily.advertise.AdvertiseVO">
+	UPDATE ADVERTISE SET
+	ACOUNT = (SELECT NVL(MAX(ACOUNT),0)+1 FROM ADVERTISE)
+	WHERE AIDX = #{aidx} 
+</update>
+
+</mapper>

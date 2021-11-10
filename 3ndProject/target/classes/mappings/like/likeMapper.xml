@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="like">
+<select id="getBoardLike" resultType="com.project.petmily.like.LikeVO" parameterType="com.project.petmily.like.LikeVO">
+	select * from LIKES where bidx = #{bidx}
+</select>
+
+<insert id ="insertLike" parameterType="com.project.petmily.like.LikeVO">
+INSERT INTO LIKES(LIDX, BIDX, MIDX)
+VALUES(
+(SELECT NVL(MAX(LIDX),0)+1 FROM LIKES), #{bidx}, #{midx})
+</insert>
+
+<delete id="deleteLike"  parameterType="com.project.petmily.like.LikeVO">
+delete from likes where midx = #{midx}
+</delete>
+
+</mapper>

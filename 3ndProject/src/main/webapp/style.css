@@ -1,0 +1,336 @@
+@charset "UTF-8";
+
+#container {
+	margin: 0 auto;
+	width: 80%;
+	display: block;
+}
+
+.titleSpace {
+	width: 90%;
+	padding: 0px 30px;
+	display: inline-block;
+}
+
+#titleContainer {
+	float: left;
+}
+
+#detailNickname {
+	float: right;
+}
+
+#detailNickname a:hover {
+	text-decoration: underline;
+}
+
+.pictureSpace {
+	text-align: center;
+	width: 400px;
+	height: 700px;
+	float: left;
+}
+
+#pictureTable {
+	margin: 0 auto;
+	border: 1px solid grey;
+	border-radius: 10px;
+	padding: 2px;
+	height: 720px;
+}
+
+#mainPict {
+	height: 500px;
+}
+
+#mainPict img {
+	width: 390px;
+}
+
+#pict1 {
+	opacity: 70%;
+	transition: 0.5s;
+	width: 120px;
+}
+
+#pict1:hover {
+	opacity: 100%;
+	cursor: pointer;
+}
+
+#pict1 img, #pict2 img, #pict3 img {
+	width: 120px;
+}
+
+#pict2 {
+	opacity: 70%;
+	transition: 0.5s;
+}
+
+#pict2:hover {
+	opacity: 100%;
+	cursor: pointer;
+}
+
+#pict3 {
+	opacity: 70%;
+	transition: 0.5s;
+}
+
+#pict3:hover {
+	opacity: 100%;
+	cursor: pointer;
+}
+
+a {
+	text-decoration: none;
+	color: grey;
+}
+
+#reportSpace {
+	margin: auto;
+	text-align: center;
+	border: 1px solid orange;
+	display: none;
+	position: absolute;
+	top: 500px;
+	left: 900px;
+	background-color: white;
+	border-radius: 15px;
+	padding: 10px;
+}
+
+#reportTable {
+	margin: 0 auto;
+}
+
+h2 {
+	color: orange;
+	font-size: 1.4em;
+}
+
+.reportBtn {
+	border: none;
+	border-radius: 5px;
+	width: 100px;
+	height: 40px;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+#likeControll, #favControll, #reportControll {
+	cursor: pointer;
+}
+
+.reportBtn:hover {
+	background-color: orange;
+	color: white;
+	transition: 0.5s;
+}
+
+#recommentSubmit {
+	border: none;
+	border-radius: 5px;
+	width: 70px;
+	height: 20px;
+	font-size: 8px;
+	font-weight: bold;
+}
+
+input[id^=recommentVal] {
+	width: 300px;
+	padding: 5px 0px;
+	font-size: 6px;
+	border: 1px solid grey;
+	border-radius: 5px;
+}
+
+#recommentSubmit:hover {
+	background-color: orange;
+	color: white;
+	transition: 0.5s;
+}
+
+.contentTextSpace {
+	width: 40%;
+	float: left;
+	margin-left: 5px;
+	padding: 10px
+}
+
+#textSpace {
+	padding: 30px;
+	height: 600px;
+	font-weight: bold;
+}
+
+.moreConfig {
+	font-weight: bold;
+	float: right;
+}
+
+.configBoard {
+	margin-left: 40px;
+	font-weight: bold;
+	color: grey;
+	float: right;
+}
+
+.midSpace {
+	width: 100%;
+	margin: 0 auto;
+	float: right;
+	text-align: center;
+	font-weight: bold;
+}
+
+#adSpace {
+	width: 150px;
+	height: 450px;
+	float: right;
+	font-weight: bold;
+}
+
+#replyTable {
+	margin: 0 auto;
+	padding: 10px;
+	border: 0.1px solid grey;
+	background-color: white;
+	border-radius: 10px;
+	width: 700px;
+}
+
+#reportReply, #recomment, #replyControll {
+	font-size: 0.7em;
+	color: grey;
+	text-align: right;
+}
+
+.writerWrap {
+	border-top: 1px solid black;
+}
+
+#replyControll {
+	border-bottom: 1px solid lightgrey;
+}
+
+td[id^=repNo], #replyReg {
+	color: grey;
+	font-weight: bold;
+	font-size: 0.8em;
+	padding: 5px;
+	text-align: left;
+}
+
+#replyTable tr:nth-child(3n) {
+	background-color: white;
+}
+
+#replyVal {
+	padding: 5px;
+	width: 500px;
+	height: 35px;
+	font-family: sans-serif;
+	border: 2px solid grey;
+	border-radius: 10px;
+}
+
+#replyContent {
+	font-size: 0.8em;
+	padding: 5px 20px;
+}
+
+#moreBoard{
+	float:left;
+	width : 100%;
+	text-align: center;
+	font-weight: bold;
+	color : orange;
+	cursor: pointer;
+	border-top: 1px solid orange;
+	border-bottom : 1.5px solid orange;
+	
+}
+
+
+#footSpace{
+	margin : 0 auto;
+	float:left;
+	width : 100%;
+	display:none;
+}
+
+#closebox {
+	padding : 0px;
+	text-align: center;
+	color : darkgrey;
+	font-size : 0.8em;
+	cursor: pointer;
+}
+#closebox p:hover, #moreBoard p:hover{
+	text-decoration: underline;
+}
+
+#stickTool{
+	text-align : center;
+	position : fixed;
+	top : 90%;
+	left : 80%;
+	width : 200px;
+}
+
+div[id^=boardBox] {
+	width:24.8%;
+	float:left;
+	text-align : center;
+	margin-left : auto;
+	cursor: pointer;
+	font-weight: bold;
+	color : darkgrey;
+	opacity: 60%;
+}
+
+div[id^=boardBox]:hover {
+	background-color: ghostwhite;
+	transition : 0.5s;
+	opacity: 100%;
+}
+
+#boardTable{
+	margin : auto;
+}
+
+#stickTool{
+	text-align : center;
+	position : fixed;
+	top : 80%;
+	left : 80%;
+	width : 210px;
+}
+
+#writeBtn, #backBtn{
+	width : 70px;
+	height : 70px;
+	border-radius : 50%;
+	border : none;
+	font-weight : bold;
+	font-size: 1.1em;
+}
+
+
+#writeBtn:hover {
+	border : 2px solid darkgrey;
+	width : 69px;
+	height : 69px;
+	background-color: orange;
+	color : white;
+}
+
+#backBtn:hover {
+	border : 2px solid darkgrey;
+	width : 69px;
+	height : 69px;
+	background-color: orange;
+	color : white;
+}
+

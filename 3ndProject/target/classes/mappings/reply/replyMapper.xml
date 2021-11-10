@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="reply">
+
+<select id="getReply" resultType="com.project.petmily.reply.ReplyVO" parameterType="com.project.petmily.reply.ReplyVO">
+SELECT * FROM REPLY WHERE BIDX = #{bidx} ORDER BY RIDX
+</select>
+
+<select id="getRecomment" resultType="com.project.petmily.reply.ReplyVO" parameterType="com.project.petmily.reply.ReplyVO">
+SELECT * FROM REPLY WHERE RECOMMENT = #{ridx} order by RIDX
+</select>
+
+<insert id="insertReply" parameterType="com.project.petmily.reply.ReplyVO">
+INSERT INTO REPLY (RIDX,BIDX,MIDX,RECOMMENT,RCONTENT,RREGDATE) 
+VALUES(
+(SELECT NVL(MAX(RIDX),0)+1 FROM REPLY), #{bidx}, #{midx}, NULL, #{rcontent}, SYSDATE
+)
+</insert>
+
+<insert id="insertRecomment" parameterType="com.project.petmily.reply.ReplyVO">
+INSERT INTO REPLY (RIDX,BIDX,MIDX,RECOMMENT,RCONTENT,RREGDATE) 
+VALUES(
+(SELECT NVL(MAX(RIDX),0)+1 FROM REPLY), #{bidx}, #{midx}, #{recomment}, #{rcontent}, SYSDATE
+)
+</insert>
+
+<update id="updateReply" parameterType="com.project.petmily.reply.ReplyVO">
+UPDATE REPLY SET
+RCONTENT = #{rcontent},
+RREGDATE = SYSDATE
+WHERE RIDX = #{ridx}
+</update>
+
+<delete id = "deleteReply"  parameterType="com.project.petmily.reply.ReplyVO">
+DELETE FROM REPLY WHERE RIDX=#{ridx}
+</delete>
+
+</mapper>

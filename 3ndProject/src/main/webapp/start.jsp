@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>index화면
-</title>
+<title>시작</title>
 </head>
 <body>
-다른 Branch로 Push해보기
+
+<a href="memberTest.do">테스트</a>
 </body>
 </html>

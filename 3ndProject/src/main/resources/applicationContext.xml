@@ -8,14 +8,15 @@
 <!-- component scan 지정 필요 -->
 
 <!-- 일단은 프로젝트 java src 이하의 모든 컴포넌트를 스캔함. 이후 수정될 수 있음. -->
+
 <context:component-scan base-package="com.project.petmily"></context:component-scan>
 
 <!-- dataSource 지정. database 서버 회의 후 결정되면 지정 후 한번에 수정 후 github에 push예정 -->
 <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
 <property name = "driverClassName" value="oracle.jdbc.OracleDriver"/>
-<property name="url" value="jdbc:oracle:thin:@주소:포트 미지정"/>
-<property name = "username" value="미지정"/>
-<property name = "password" value="미지정"/>
+<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+<property name = "username" value="PETMILY"/>
+<property name = "password" value="PETMILY"/>
 
 </bean>
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+<select id="getMember" resultType="com.project.petmily.member.MemberVO" parameterType="com.project.petmily.member.MemberVO">
+	SELECT * FROM MEMBER where midx = #{midx}
+</select>
+
+<select id="getMemberList" resultType="com.project.petmily.member.MemberVO" parameterType="com.project.petmily.member.MemberVO">
+	SELECT * FROM MEMBER ORDER BY MIDX
+</select>
+</mapper>
