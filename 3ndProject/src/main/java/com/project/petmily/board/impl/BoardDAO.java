@@ -28,17 +28,25 @@ public class BoardDAO {
 	}
 
 	public void insertBoard(BoardVO bvo) {
-		// TODO Auto-generated method stub
-		
+		sst.insert("board.insertBoard",bvo);
 	}
 
 	public void updateBoard(BoardVO bvo) {
-		// TODO Auto-generated method stub
+		sst.update("board.updateBoard",bvo);
 		
 	}
 
 	public void deleteBoard(BoardVO bvo) {
-		// TODO Auto-generated method stub
+		sst.delete("board.deleteBoard",bvo);
+	}
+
+	public void updateBoardAlarm(BoardVO bvo) {
+		sst.update("board.updateBoardAlarm",bvo);
+		
+	}
+
+	public void resetBoardAlarm(BoardVO bvo) {
+		sst.update("board.resetBoardAlarm",bvo);
 		
 	}
 	

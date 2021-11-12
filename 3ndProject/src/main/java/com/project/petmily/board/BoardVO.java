@@ -20,7 +20,7 @@ public class BoardVO {
 	String searchKeyword;
 	
 	
-	
+
 	public String getSearchCondition() {
 		return searchCondition;
 	}
@@ -137,13 +137,16 @@ public class BoardVO {
 		this.alarm = alarm;
 	}
 
+	
 	@Override
 	public String toString() {
 		return "BoardVO [bidx=" + bidx + ", midx=" + midx + ", btitle=" + btitle + ", btext=" + btext + ", bpict1="
 				+ bpict1 + ", bpict2=" + bpict2 + ", bpict3=" + bpict3 + ", bregdate=" + bregdate + ", boardcate="
 				+ boardcate + ", alarm=" + alarm + ", searchCondition=" + searchCondition + ", searchKeyword="
-				+ searchKeyword + "]";
+				+ searchKeyword + ", uploadFile=" + "]";
 	}
+
+
 
 
 	

@@ -1,8 +1,13 @@
 @charset "UTF-8";
 
+body{
+	font-family: '맑은고딕', 'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New';
+	
+}
+
 #container {
 	margin: 0 auto;
-	width: 80%;
+	width: 75%;
 	display: block;
 }
 
@@ -41,6 +46,7 @@
 
 #mainPict {
 	height: 500px;
+	overflow: hidden;
 }
 
 #mainPict img {
@@ -51,6 +57,7 @@
 	opacity: 70%;
 	transition: 0.5s;
 	width: 120px;
+	overflow: hidden;
 }
 
 #pict1:hover {
@@ -60,11 +67,13 @@
 
 #pict1 img, #pict2 img, #pict3 img {
 	width: 120px;
+	
 }
 
 #pict2 {
 	opacity: 70%;
 	transition: 0.5s;
+	overflow: hidden;
 }
 
 #pict2:hover {
@@ -75,6 +84,7 @@
 #pict3 {
 	opacity: 70%;
 	transition: 0.5s;
+	overflow: hidden;
 }
 
 #pict3:hover {
@@ -187,7 +197,9 @@ input[id^=recommentVal] {
 #adSpace {
 	width: 150px;
 	height: 450px;
-	float: right;
+	position : fixed;
+	top : 100px;
+	right : 20px;
 	font-weight: bold;
 }
 
@@ -280,7 +292,7 @@ td[id^=repNo], #replyReg {
 }
 
 div[id^=boardBox] {
-	width:24.8%;
+	width:19%;
 	float:left;
 	text-align : center;
 	margin-left : auto;
@@ -304,8 +316,7 @@ div[id^=boardBox]:hover {
 	text-align : center;
 	position : fixed;
 	top : 80%;
-	left : 80%;
-	width : 210px;
+	right : 0px;
 }
 
 #writeBtn, #backBtn{
@@ -319,18 +330,187 @@ div[id^=boardBox]:hover {
 
 
 #writeBtn:hover {
-	border : 2px solid darkgrey;
+	border : 2px solid black;
 	width : 69px;
 	height : 69px;
 	background-color: orange;
 	color : white;
+	transition : 0.5s;
 }
 
 #backBtn:hover {
-	border : 2px solid darkgrey;
+	border : 2px solid black;
 	width : 69px;
 	height : 69px;
 	background-color: orange;
 	color : white;
+	transition : 0.5s;
 }
+
+#titleSpace, #titleinputSpace,#imageInputSpace,#contentInputSpace,#bottomSpace{
+	width : 100%;
+	float:left;
+	text-align: center;
+}
+
+#titleSpace h1{
+	color : darkgrey;
+	font-weight:bold;
+}
+
+#imageInputSpace{
+	padding : 20px;
+	
+}
+
+#titleInput select,#titleInput input {
+	height : 50px;
+	border : 1px solid darkgrey;
+	border-radius: 10px;
+	font-weight : bold;
+	font-size : 1.2em;
+} 
+
+
+#titleInput input {
+	width : 400px;
+}
+#subTitleSpace{
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+#imageUploadTable{
+	width : 100%;
+	margin : 0 auto;
+	text-align:center;
+}
+
+div[id^=uploadForm]>input {
+	font-size : 0.8em;
+	background-color: lightyellow;
+	font-weight : bold;
+	margin : auto;
+}
+
+div[id^=uploadForm] {
+	text-align:center;
+	margin: auto;
+	display:none;
+    width : 600px;
+    height : 200px;
+    border : 5px solid black;
+    border-radius : 5px;
+    font-size: 0.8em;
+    font-weight : bold;
+    background-color: white;
+    border-radius: 15px;
+    padding: 5px;
+}
+
+
+#imageUploadTable div[id^=uploadBpict]{
+	
+	margin : auto;
+	width : 150px;
+	height : 150px;
+	border : 5px solid lightgrey;
+	opacity:80%;
+	border-radius: 10px;
+	background-color: 	#FFFFE0;
+	color : lightgrey;
+	font-size : 1.5em;
+	font-weight : bold;
+	overflow: hidden;
+}
+
+
+#uploadBpict2, #uploadBpict3 {
+	display: none;
+}
+
+
+#imageUploadTable div[id^=uploadBpict]:hover {
+	opacity:100%;
+	border : 5px solid black;
+	color : black;
+	cursor:pointer;
+}
+
+
+/* 작성자의 마이페이지 및 쪽지보내기 탭 컨트롤 */
+li {
+    padding: 5px;
+    list-style-type: none;
+}
+
+input[id^=replyMenuBtn] ,input[id^=menuBtn], input[id^=recommentMenuBtn]{
+   position: fixed;
+    left: -9999px;
+}
+
+label {
+    cursor: pointer;
+}
+
+
+.submenu {
+    display:none;
+    position : absolute;
+    width : 200px;
+    border : 1px solid darkgrey;
+    border-radius : 5px;
+    font-size: 0.8em;
+    font-weight : bold;
+    background-color: white;
+}
+
+#menuBtn:checked ~ .submenu {
+    display: block;
+}
+
+
+ul[class^=replySubmenu] {
+    display:none;
+    position : absolute;
+    width : 200px;
+    border : 1px solid darkgrey;
+    border-radius : 5px;
+    font-size: 0.8em;
+    font-weight : bold;
+    background-color: white;
+}
+
+
+input[id^=replyMenuBtn]:checked ~ ul[class^=replySubmenu] {
+    display: block;
+}
+
+
+ul[class^=recommentSubmenu] {
+    display:none;
+    position : absolute;
+    width : 200px;
+    border : 1px solid darkgrey;
+    border-radius : 5px;
+    font-size: 0.8em;
+    font-weight : bold;
+    background-color: white;
+}
+
+
+input[id^=recommentMenuBtn]:checked ~ ul[class^=recommentSubmenu] {
+    display: block;
+}
+
+
+
+
+
+p[id^=popClose]:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+
 

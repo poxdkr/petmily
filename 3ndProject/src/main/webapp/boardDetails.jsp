@@ -2,32 +2,32 @@
 <%@page import="com.project.petmily.member.impl.MemberServiceImpl"%>
 <%@page import="com.project.petmily.board.BoardVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
-BoardVO board = (BoardVO)request.getAttribute("board");
+	BoardVO board = (BoardVO) request.getAttribute("board");
 //말머리 찾기
 String boardCate = "";
-if(board.getBoardcate() == 1){
+if (board.getBoardcate() == 1) {
 	boardCate = "고양이";
-}else if(board.getBoardcate() == 2){
+} else if (board.getBoardcate() == 2) {
 	boardCate = "강아지";
-}else if(board.getBoardcate() == 3){
+} else if (board.getBoardcate() == 3) {
 	boardCate = "댕냥노하우";
-}else {
+} else {
 	boardCate = "자유주제";
 }
 pageContext.setAttribute("boardCate", boardCate);
 
 //사진 있는지 여부 확인
-if(board.getBpict1() != null){
+if (board.getBpict1() != null) {
 	String bpict1 = board.getBpict1();
 	String bpict2 = board.getBpict2();
 	String bpict3 = board.getBpict3();
 	pageContext.setAttribute("bpict1", bpict1);
 	pageContext.setAttribute("bpict2", bpict2);
 	pageContext.setAttribute("bpict3", bpict3);
-}else{
+} else {
 	pageContext.setAttribute("bpict1", "nonePict.jpg");
 	pageContext.setAttribute("bpict2", "nonePict.jpg");
 	pageContext.setAttribute("bpict3", "nonePict.jpg");
@@ -38,9 +38,31 @@ if(board.getBpict1() != null){
 <head>
 <meta charset="UTF-8">
 <title>PETMILY! : 이야기 상세보기</title>
-<link rel ="stylesheet" href="./style.css" type="text/css">
-<script src = "http://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="./style.css" type="text/css">
+<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+////////////////////////////////////////////////
+//게시글 수정하기
+function updateBoard(bidx){
+	let answer = confirm("게시물을 수정할까요??");
+	if(answer){
+		location.href="beforeUpdateBoard.do?bidx="+bidx;
+	}else{
+		return;
+	}
+}
+
+
+//게시글 삭제하기
+function deleteBoard(bidx){
+	let answer = confirm("게시물을 삭제하려고 해요! 정말로 삭제할까요??");
+	if(answer){
+		location.href="deleteBoard.do?bidx="+bidx;
+	}else{
+		return;
+	}
+} 
+
 /////////////////////////////////////////////////
 //해당게시물로 넘어가기 함수
 function getBoard(bidx){
@@ -48,6 +70,11 @@ function getBoard(bidx){
 	location.href="getBoard.do?bidx="+bidx;
 }
 
+/////////////////////////////////////////////////
+//메시지보내기 함수
+function sendMessage(midx){
+	location.href="message_send.do?recv_midx="+midx;
+}
 /////////////////////////////////////////////////
 //답글쓰기 함수
 function insertRecomment(ridx){
@@ -122,6 +149,7 @@ function insertRecomment(ridx){
 						//날짜 처리 
 						const date = new Date(+this.rregdate + 3240 * 10000).toISOString().split("T")[0];
 						//불러온 리스트 each로 getMember 해야됨.
+						let recoRidx=this.ridx;
 						let userMidx = this.midx;
 						let userNickname ="";
 						let rcontent = this.rcontent;
@@ -149,7 +177,13 @@ function insertRecomment(ridx){
 								//추가할 행을 tr id="recNo + ridx에 append함
 								recommentHtml = "";
 								recommentHtml += "<tr>";
-								recommentHtml += "<td id=\"repNo"+ridx+"\"><small>ㄴ> (답글)  "+mnickname+"  [ "+date+" ]</small></td>";
+								recommentHtml += "<td id=\"repNo"+ridx+"\"><small>ㄴ> (답글)";  
+								recommentHtml += "<input type=\"checkbox\" id='recommentMenuBtn"+recoRidx+"'>";
+								recommentHtml += "<label for='recommentMenuBtn"+recoRidx+"' class=\"labelBtn\" onclick=''>"+mnickname+"</label>";
+								recommentHtml += "<ul class='recommentSubmenu"+recoRidx+"'>";
+								recommentHtml += "<li><a href='#'>작성자의 Mypage</a></li>";
+								recommentHtml += "<li><a href='javascript:sendMessage("+midx+")'>작성자에게 쪽지 보내기</a></li>";
+								recommentHtml += "</ul>   [ "+date+" ]</small></td>";
 								recommentHtml += "</tr>"
 								recommentHtml += "<tr>";
 								recommentHtml += "<td id=\"repNo"+ridx+"\" style=\"color:black; padding : 0px 10px; \"><small>&nbsp;&nbsp;&nbsp;&nbsp;(답글내용)  "+rcontent+" </small></td>";
@@ -302,9 +336,17 @@ $(function(){
 			let mname = data.mname;
 			let mphone = data.mphone;
 			mnickname = data.mnickname;
-			let detailNickname ="<a href=\"#\"><img width='25px' src=\"./images/none.jpeg\"><b><small>"+mnickname+"</small></b></a>&nbsp;" 
-								+ "<a href=\"#\"><img width='12px' src=\"./images/directMessage.jpg\" alt='작성자에게 메시지 보내기!'></a>";
-				
+			
+			
+			let detailNickname ="";
+			
+			detailNickname += "<input type=\"checkbox\" id=\"menuBtn\">";
+			detailNickname += "<label for=\"menuBtn\" class=\"labelBtn\" onclick=\"\"><img width='25px' src=\"./images/none.jpeg\"><b><small>"+mnickname+"</small></b></a>&nbsp;</label>";
+			detailNickname += "<ul class=\"submenu\">";
+			detailNickname += "<li><a href='#'>작성자의 Mypage</a></li>";
+			detailNickname += "<li><a href='javascript:sendMessage("+midx+")'>작성자에게 쪽지 보내기</a></li>";
+			detailNickname += "</ul>";
+
 				$("#detailNickname").html(detailNickname);
 			let mphoto = data.mphoto;
 			
@@ -426,7 +468,7 @@ $(function(){
 					$("#replyTable").append(replyHtml);
 					replyHtml ="";
 				}else{
-					
+				
 					$.each(data,function(index, item){
 					const date = new Date(+this.rregdate + 3240 * 10000).toISOString().split("T")[0];
 					let rcontent = this.rcontent;
@@ -442,20 +484,33 @@ $(function(){
 							async: false,
 							success : function(data){
 								userNickname = data.mnickname;
+								let midx = data.midx;
 								replyHtml += "<tr>";
 								//1. 게시글 작성자 본인인 경우
 								if(${board.midx } == data.midx){
 									if(recomment == 0){ //1-1. 대댓글이 아닌 경우
-										replyHtml += "<td id=\"repNo"+ridx+"\" style=\"color:orange;\" class=\"writerWrap\">"+userNickname+" <small>(작성자) [ "+date+" ]</small> </td>";
-										replyHtml += "</tr>";	
-										replyHtml += "<tr>";
-										replyHtml += "<td colspan =\"2\" id= \"replyContent\" style=\"text-align:left\">"+rcontent+"</td>";
-										replyHtml += "</tr>";
-										replyHtml += "<tr>";
-										console.log("rcontent : " + rcontent);
+									
 										if(rcontent == "삭제된 댓글입니다."){
-																					
+											replyHtml += "<td id=\"repNo"+ridx+"\">";
+											replyHtml += "<input type=\"checkbox\" id='replyMenuBtn"+ridx+"'>";
+											replyHtml += "<label for='replyMenuBtn"+ridx+"' class=\"labelBtn\" onclick=''>삭제된 댓글의 작성자</label></td>";
+											replyHtml += "</tr>";	
+											replyHtml += "<tr>";
+											replyHtml += "<td colspan =\"2\" id= \"replyContent\" style=\"text-align:left\">"+rcontent+"</td>";
+											replyHtml += "</tr>";
 										}else{
+											replyHtml += "<td id=\"repNo"+ridx+"\" style=\"color:orange;\" class=\"writerWrap\">";
+											replyHtml += "<input type=\"checkbox\" id='replyMenuBtn"+ridx+"'>";
+											replyHtml += "<label for='replyMenuBtn"+ridx+"' class=\"labelBtn\" onclick=''>"+userNickname+"</label>";
+											replyHtml += "<ul class='replySubmenu"+ridx+"'>";
+											replyHtml += "<li><a href='#'>작성자의 Mypage</a></li>";
+											replyHtml += "<li><a href='javascript:sendMessage("+midx+")'>작성자에게 쪽지 보내기</a></li>";
+											replyHtml += "</ul><small>(작성자) [ "+date+" ]</small> </td>";
+											replyHtml += "</tr>";	
+											replyHtml += "<tr>";
+											replyHtml += "<td colspan =\"2\" id= \"replyContent\" style=\"text-align:left\">"+rcontent+"</td>";
+											replyHtml += "</tr>";
+											replyHtml += "<tr>";
 										replyHtml += "<td  colspan=\"2\" id =\"replyControll\"><span id=\"recomment"+ridx+"\"><a href=\"javascript:getRecomment("+ridx+")\" id=a"+ridx+">답글보기/작성 </a>|</span> ";
 										replyHtml += "<span id=\"reportReply\"><a href=\"javascript:replyReport("+ridx+")\">신고하기 | </a>";
 										//로그인 유저가 동일인물이면 삭제 기능 있음
@@ -472,10 +527,26 @@ $(function(){
 									}else{ //1-2. 대댓글이 맞는 경우
 									}
 								//2. 게시글 작성자가 아닌 일반 유저인 경우	
-									
+								
 								}else{
 									if(recomment == 0){ //2-1. 대댓글이 아닌 경우
-										replyHtml += "<td id=\"repNo"+ridx+"\" class=\"writerWrap\">"+userNickname+" <small>[ "+date+" ]</small></td>";
+										
+										if(rcontent == "삭제된 댓글입니다."){
+											replyHtml += "<td id=\"repNo"+ridx+"\">";
+											replyHtml += "<input type=\"checkbox\" id='replyMenuBtn"+ridx+"'>";
+											replyHtml += "<label for='replyMenuBtn"+ridx+"' class=\"labelBtn\" onclick=''>삭제된 댓글의 작성자</label></td>";
+											replyHtml += "</tr>";	
+											replyHtml += "<tr>";
+											replyHtml += "<td colspan =\"2\" id= \"replyContent\" style=\"text-align:left\">"+rcontent+"</td>";
+											replyHtml += "</tr>";
+										}else{
+										replyHtml += "<td id=\"repNo"+ridx+"\" class=\"writerWrap\">";
+										replyHtml += "<input type=\"checkbox\" id='replyMenuBtn"+ridx+"'>";
+										replyHtml += "<label for='replyMenuBtn"+ridx+"' class=\"labelBtn\" onclick=''>"+userNickname+"</label>";
+										replyHtml += "<ul class='replySubmenu"+ridx+"'>";
+										replyHtml += "<li><a href='#'>작성자의 Mypage</a></li>";
+										replyHtml += "<li><a href='javascript:sendMessage("+midx+")'>작성자에게 쪽지 보내기</a></li>";
+										replyHtml += "</ul><small>   [ "+date+" ]</small></td>";
 										replyHtml += "</tr>";	
 										replyHtml += "<tr>";
 										replyHtml += "<td colspan =\"2\" id= \"replyContent\" style=\"text-align:left\">"+rcontent+"</td>";
@@ -484,6 +555,7 @@ $(function(){
 										replyHtml += "<td  colspan=\"2\" id =\"replyControll\"><span id=\"recomment"+ridx+"\"><a href=\"javascript:getRecomment("+ridx+")\" id=a"+ridx+">답글보기/작성 </a>|</span>  <span id=\"reportReply\"><a href=\"javascript:replyReport("+ridx+")\">신고하기</a></td>";
 										replyHtml += "<tr id=\"recNo"+ridx+"\">";
 										replyHtml += "</tr>";
+										}
 									}else{ //2-2. 대댓글이 맞는 경우
 									 //일단 아무것도 불러오지 않겠음.	
 									}
@@ -568,6 +640,7 @@ $(function(){
  				let bidx = this.bidx;
  				let btitle = this.btitle;
  				let bpict1 = this.bpict1;
+ 				let boardCnt =0;
 				//게시물의 등록된 사진이 없을 경우
  				if(bpict1 == null){
 					bpict1 = "nonePict.jpg";
@@ -576,18 +649,21 @@ $(function(){
  				if(bidx == ${board.bidx }){
  					
  				}else{
- 				boardHtml ="";
- 				boardHtml += "<div id=\"boardBox"+bidx+"\" onclick=\"javascript:getBoard("+bidx+")\">";
- 				boardHtml += "<table id=\"boardTable\">";
- 				boardHtml += "<tr>";
- 				boardHtml += "<td id=\"boardImage"+bidx+"\"><img src=\"./images/"+bpict1+"\" width=\"150px;\" height=\"150px;\"></td>";
- 				boardHtml += "</tr>";
- 				boardHtml += "<tr>";
- 				boardHtml += "<td id=\"boardTitle\">"+btitle+"</p>";
- 				boardHtml += "</tr>";
- 				boardHtml += "</table>";
- 				boardHtml += "</div>";
- 				$("#footSpace").append(boardHtml);
+	 				if(boardCnt < 5){
+	 				boardHtml ="";
+	 				boardHtml += "<div id=\"boardBox"+bidx+"\" onclick=\"javascript:getBoard("+bidx+")\">";
+	 				boardHtml += "<table id=\"boardTable\">";
+	 				boardHtml += "<tr>";
+	 				boardHtml += "<td id=\"boardImage"+bidx+"\"><img src=\"./images/"+bpict1+"\" width=\"150px;\" height=\"150px;\"></td>";
+	 				boardHtml += "</tr>";
+	 				boardHtml += "<tr>";
+	 				boardHtml += "<td id=\"boardTitle\">"+btitle+"</p>";
+	 				boardHtml += "</tr>";
+	 				boardHtml += "</table>";
+	 				boardHtml += "</div>";
+	 				$("#footSpace").append(boardHtml);
+	 				boardCnt++;
+	 				}
  				}
  			});
  			
@@ -596,6 +672,9 @@ $(function(){
  		}
  		});
  		
+ 		
+ 		///////////////////////////////////////////////////////////////////
+ 		//게시물의 작성자가 페이지를 확인하면 ALARM 정보 초기화
  		
 		///////////////////////////////////////////////////////////////////
 		//pict객체 DOM 컨트롤
@@ -762,6 +841,21 @@ $(function(){
 				contentType:"application/json",
 				success : function(){
 					alert("댓글입력이 완료되었습니다!");
+					//////// -> 댓글이 입력되면 Alarm 하나  상승
+					 $.ajax({
+					url : "updateBoardAlarm.do",
+					type: "post",
+					data: "bidx="+${board.bidx },
+					//dataType:"json", 
+					//contentType:"application/json",
+					success : function(data){
+						//alert("alarm갯수가 올라갔음!");
+					}, 
+					error : function(data){
+						//alert("알람 실패");
+					    }
+					});
+					//////////////////////////////////////
 					history.go(0);
 				}, 
 				error : function(){
@@ -781,125 +875,171 @@ $(function(){
 		$("#footSpace").css("display","none");
 	});
 	
+	/////////////////////////////////////////////////////
+	//게시글 작성자가 글을 확인 했을때 알람 초기화
+	if(${board.midx == user.midx}){
+		$.ajax({
+			url : "resetBoardAlarm.do",
+			type: "post",
+			data: "bidx="+${board.bidx },
+			//dataType:"json", 
+			//contentType:"application/json",
+			success : function(data){
+				//alert("알람 리셋 성공");
+			},	
+			error : function(data){
+				//alert("알람 리셋 실패");
+			}
+		});
+	}
 }); //Jquery 종료
 	
 
 </script>
 
 </head>
-	<body>
+<body>
 	<!-- 컨테이너 시작 -->
-	<div id = "container">
+	<div id="container">
 		<!-- 타이틀 단 시작 -->
-		<div class = "titleSpace">
+		<div class="titleSpace">
 			<div id="titleContainer">
-				<h4 style="color:green;">&lt;&lt;${boardCate }&gt;&gt;</h4>
+				<h4 style="color: green;">&lt;&lt;${boardCate }&gt;&gt;</h4>
 				<h1>${board.btitle }</h1>
 			</div>
-			<p id ="detailNickname"><!-- 닉네임과 작성자 사진이 오는 자리 --></p>
-			
+			<p id="detailNickname">
+				<!-- 닉네임과 작성자 사진이 오는 자리 -->
+			</p>
+
 		</div>
 		<hr>
 		<!-- 타이틀 단 종료 -->
 		<div class="contentSpace">
-			
+
 			<div class="pictureSpace">
 				<table id="pictureTable">
 					<tr>
-						<td colspan = "3" id = "mainPict"><!-- 클릭된 사진이 보일 자리 --></td>
+						<td colspan="3" id="mainPict">
+							<!-- 클릭된 사진이 보일 자리 -->
+						</td>
 					</tr>
 					<tr>
-						<td id = "pict1"><img src ="./images/${bpict1 }"></td>
-						<td id = "pict2"><img src ="./images/${bpict2 }"></td>
-						<td id = "pict3"><img src ="./images/${bpict3 }"></td>
+						<td id="pict1"><img src="./images/${bpict1 }"></td>
+						<td id="pict2"><img src="./images/${bpict2 }"></td>
+						<td id="pict3"><img src="./images/${bpict3 }"></td>
 					</tr>
 				</table>
 			</div>
-			
+
 			<div class="contentTextSpace">
-			
+
 				<div id="textSpace">
-					<p><b><small>작성일 : [${board.bregdate }]</small></b></p>
+					<p>
+						<b><small>작성일 : [${board.bregdate }]</small></b>
+					</p>
 					<hr>
 					<p>${board.btext }</p>
 				</div>
 				<hr>
 				<div class="contentBotSpace">
 					<div class="configBoard">
-						<span>
-						<a href="#"><img src="./images/modify.jpg" width="15px"> 수정</a> |
-						<a href="#"><img src="./images/delete.jpg" width="15px">삭제</a></span>
+						<span> <a href="javascript:updateBoard(${board.bidx })"><img src="./images/modify.jpg"
+								width="15px">수정</a> | <a
+							href="javascript:deleteBoard(${board.bidx })"><img
+								src="./images/delete.jpg" width="15px">삭제</a></span>
 					</div>
 
 					<div class="moreConfig">
-						<span style="color:grey;" id="likeControll"> 
-						<img src="./images/like1.jpg" width ="15px;"></span>좋아요<span id="likeCnt"></span>
-						
-						<span style="color:grey;" id="favControll">
-						<img src="./images/favorite1.jpg" width ="18px;"></span>즐겨찾기
-						<span style="color:red;"  id="reportControll">
-						<img src="./images/siren.jpg" width ="18px;">신고하기
-						</span> 
+						<span style="color: grey;" id="likeControll"> <img
+							src="./images/like1.jpg" width="15px;"></span>좋아요<span
+							id="likeCnt"></span> <span style="color: grey;" id="favControll">
+							<img src="./images/favorite1.jpg" width="18px;">
+						</span>즐겨찾기 <span style="color: red;" id="reportControll"> <img
+							src="./images/siren.jpg" width="18px;">신고하기
+						</span>
 					</div>
 				</div>
-				
+
 				<div id="reportSpace">
-						<form id="reportForm" method="post">	
-						<input type="hidden" name="rfrom" value="${user.midx }">		
-						<input type="hidden" name="rto" value="${board.midx }">		
-						<input type="hidden" name="rtype" value="1">		
-						<input type="hidden" name="rnum" value="${board.bidx }">
-							
-							<table id="reportTable">
-								<tr>
-									<td colspan="2"><h2>신고하기</h2></td>
-								</tr>
-								<tr>
-									<td colspan="2"><textarea id="rcontent" cols="30" rows="20" placeholder="해당 게시물의 신고사유를 기재해주세요. 허위 신고시 제재될 수 있습니다!"></textarea></td>
-								</tr>
-								<tr>
-									<td><button type="button" id="submitBtn" class="reportBtn">신고완료</button></td>
-									<td><button type="button" id="cancelBtn" class="reportBtn">신고취소</button></td>
-								</tr>
-							</table>
-						</form>
+					<form id="reportForm" method="post">
+						<input type="hidden" name="rfrom" value="${user.midx }"> <input
+							type="hidden" name="rto" value="${board.midx }"> <input
+							type="hidden" name="rtype" value="1"> <input
+							type="hidden" name="rnum" value="${board.bidx }">
+
+						<table id="reportTable">
+							<tr>
+								<td colspan="2"><h2>신고하기</h2></td>
+							</tr>
+							<tr>
+								<td colspan="2"><textarea id="rcontent" cols="30" rows="20"
+										placeholder="해당 게시물의 신고사유를 기재해주세요. 허위 신고시 제재될 수 있습니다!"></textarea></td>
+							</tr>
+							<tr>
+								<td><button type="button" id="submitBtn" class="reportBtn">신고완료</button></td>
+								<td><button type="button" id="cancelBtn" class="reportBtn">신고취소</button></td>
+							</tr>
+						</table>
+					</form>
 				</div>
 			</div>
-		<div id="adSpace">				
-		</div>
+			<div id="adSpace"></div>
 		</div>
 
 		<div class="midSpace">
-				<div id="inputReplySpace">
-					<p>
-					<input type="text" id="replyVal" placeholder="타인을 상처입히지 않는 따뜻한 댓글을 남겨주세요!">
-					<button type = "button" id="replySubmit" class="reportBtn">댓글입력</button>
-					</p>  
-				</div>
-				<hr>
-				<table id ="replyTable">
+			<div id="inputReplySpace">
+				<p>
+					<input type="text" id="replyVal"
+						placeholder="타인을 상처입히지 않는 따뜻한 댓글을 남겨주세요!">
+					<button type="button" id="replySubmit" class="reportBtn">댓글입력</button>
+				</p>
+			</div>
+			<hr>
+			<table id="replyTable">
 				<!-- 댓글 들어갈 곳  -->
-				</table>
-				<hr>
+			</table>
+			<hr>
 		</div>
 		<div id="moreBoard">
-		<p>최신게시글 더보기</p>
+			<p>최신게시글 더보기</p>
 		</div>
 		<div id="footSpace">
 			<div id="closebox">
 				<p>닫기</p>
 			</div>
-			
-		<!-- 최신게시글 더보기 자리 -->
-		
+
+			<!-- 최신게시글 더보기 자리 -->
+
 		</div>
 
 		<div id="stickTool">
-		<button type="button" id="writeBtn">글쓰기</button>
-		<button type="button" id="backBtn">뒤로</button>
+			<button type="button" id="writeBtn"
+				onclick="javascript:location.href='insertBoard.jsp'">글쓰기</button>
+			<button type="button" id="backBtn"
+				onclick="javascript:history.back()">뒤로</button>
 		</div>
 	</div>
-	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-	</body>
-	
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+</body>
+
 </html>

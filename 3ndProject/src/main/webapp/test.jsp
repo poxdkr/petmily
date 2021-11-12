@@ -61,7 +61,7 @@
 <hr>
 <p><a href="getBoard.do">BOARD DETAIL 확인</a></p>
 <hr>
-<p><a href="insertBoard.do">BOARD insert 하기</a></p>
+<p><a href="insertBoard.jsp">BOARD insert 하기</a></p>
 
 </body>
 </html>

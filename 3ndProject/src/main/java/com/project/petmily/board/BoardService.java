@@ -23,6 +23,10 @@ public interface BoardService {
 	//게시글 삭제
 	void deleteBoard(BoardVO bvo);
 	
+	//알람상승
+	void updateBoardAlarm(BoardVO bvo);
 	
+	//알람 리셋
+	void resetBoardAlarm(BoardVO bvo);
 	
 }
