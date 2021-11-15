@@ -73,7 +73,12 @@ function getBoard(bidx){
 /////////////////////////////////////////////////
 //메시지보내기 함수
 function sendMessage(midx){
-	location.href="message_send.do?recv_midx="+midx;
+	if(${user.midx == board.midx }){
+		alert("본인에게는 쪽지보내기를 할 수 없어요!");
+		return;
+	}else{
+		location.href="message_send.do?recv_midx="+midx;
+	}
 }
 /////////////////////////////////////////////////
 //답글쓰기 함수
@@ -941,14 +946,18 @@ $(function(){
 					<p>${board.btext }</p>
 				</div>
 				<hr>
-				<div class="contentBotSpace">
+					<div class="contentBotSpace">
+					
+					<c:if test="${user.midx == board.midx }">
 					<div class="configBoard">
 						<span> <a href="javascript:updateBoard(${board.bidx })"><img src="./images/modify.jpg"
 								width="15px">수정</a> | <a
 							href="javascript:deleteBoard(${board.bidx })"><img
 								src="./images/delete.jpg" width="15px">삭제</a></span>
 					</div>
-
+					</c:if>
+					
+					
 					<div class="moreConfig">
 						<span style="color: grey;" id="likeControll"> <img
 							src="./images/like1.jpg" width="15px;"></span>좋아요<span

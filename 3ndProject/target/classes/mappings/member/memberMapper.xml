@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member">
+
 <select id="getMember" resultType="com.project.petmily.member.MemberVO" parameterType="com.project.petmily.member.MemberVO">
 	SELECT * FROM MEMBER where midx = #{midx}
 </select>
@@ -10,4 +11,12 @@
 <select id="getMemberList" resultType="com.project.petmily.member.MemberVO" parameterType="com.project.petmily.member.MemberVO">
 	SELECT * FROM MEMBER ORDER BY MIDX
 </select>
+
+<insert id="registMember"  parameterType="com.project.petmily.member.MemberVO">
+INSERT INTO MEMBER(MIDX,MID,PWD,MNAME,MPHONE,MEMAIL,MNICKNAME,MPHOTO,MLEVEL)
+VALUES(
+#{midx },#{mid },#{pwd },#{mname },#{mphone },#{memail },#{mnickname },#{mphoto },3
+)
+</insert>
+
 </mapper>

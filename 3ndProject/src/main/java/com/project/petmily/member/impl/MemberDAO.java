@@ -20,4 +20,9 @@ public class MemberDAO {
 		return sst.selectList("member.getMemberList");
 	}
 
+	public void registMember(MemberVO mvo) {
+		sst.insert("member.registMember",mvo);
+		
+	}
+
 }

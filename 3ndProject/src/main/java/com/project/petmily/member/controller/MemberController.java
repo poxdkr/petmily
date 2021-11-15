@@ -25,4 +25,12 @@ public class MemberController {
 		return "test.jsp";
 	}
 	
+	@RequestMapping("registMember.do")
+	public String registMember(MemberVO mvo, HttpSession session) {
+		System.out.println("regist Controller 작동");
+		System.out.println("받은 mvo값 : " + mvo);
+		memberService.registMember(mvo);
+		session.setAttribute("user", mvo);
+		return "test.jsp";
+	}
 }

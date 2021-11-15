@@ -2,7 +2,7 @@ package com.project.petmily.member;
 
 public class MemberVO {
 
-	int midx;
+	long midx;
 	String mid;
 	String pwd;
 	String mname;
@@ -15,25 +15,11 @@ public class MemberVO {
 	public MemberVO() {
 	}
 
-	public MemberVO(int midx, String mid, String pwd, String mname, String mphone, String memail, String mnickname,
-			String mphoto, int mlevel) {
-		super();
-		this.midx = midx;
-		this.mid = mid;
-		this.pwd = pwd;
-		this.mname = mname;
-		this.mphone = mphone;
-		this.memail = memail;
-		this.mnickname = mnickname;
-		this.mphoto = mphoto;
-		this.mlevel = mlevel;
-	}
-
-	public int getMidx() {
+	public long getMidx() {
 		return midx;
 	}
 
-	public void setMidx(int midx) {
+	public void setMidx(long midx) {
 		this.midx = midx;
 	}
 
@@ -101,12 +87,26 @@ public class MemberVO {
 		this.mlevel = mlevel;
 	}
 
+	public MemberVO(long midx, String mid, String pwd, String mname, String mphone, String memail, String mnickname,
+			String mphoto, int mlevel) {
+		super();
+		this.midx = midx;
+		this.mid = mid;
+		this.pwd = pwd;
+		this.mname = mname;
+		this.mphone = mphone;
+		this.memail = memail;
+		this.mnickname = mnickname;
+		this.mphoto = mphoto;
+		this.mlevel = mlevel;
+	}
+
 	@Override
 	public String toString() {
 		return "MemberVO [midx=" + midx + ", mid=" + mid + ", pwd=" + pwd + ", mname=" + mname + ", mphone=" + mphone
 				+ ", memail=" + memail + ", mnickname=" + mnickname + ", mphoto=" + mphoto + ", mlevel=" + mlevel + "]";
 	}
-	
+
 	
 	
 	

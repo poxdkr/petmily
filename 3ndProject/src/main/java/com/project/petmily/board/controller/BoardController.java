@@ -160,7 +160,7 @@ public class BoardController {
 	@RequestMapping(value="updateBoardAlarm.do",  produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public void updateBoardAlarm(BoardVO bvo) {
-		//System.out.println("bvo (알람을 확인) : " + bvo);
+		//System.out.println("bvo (해당 bidx의 알람을 확인) : " + bvo);
 		boardService.updateBoardAlarm(bvo);
 		return;
 	}
@@ -168,7 +168,7 @@ public class BoardController {
 	@RequestMapping(value="resetBoardAlarm.do",  produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public void resetBoardAlarm(BoardVO bvo) {
-		System.out.println("bvo (알람을 확인) : " + bvo);
+		//System.out.println("bvo (해당 bidx의 알람을 리셋) : " + bvo);
 		boardService.resetBoardAlarm(bvo);
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -219,7 +219,7 @@ public class BoardController {
 		boardService.updateBoard(bvo);
 		
 		//수정된 bidx로 이동
-		return "getBoard.do?bidx="+bvo.getBidx()+"";
+		return "getBoardList.do";
 	}
 	
 	

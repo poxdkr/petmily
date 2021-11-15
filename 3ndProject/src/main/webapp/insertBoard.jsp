@@ -26,7 +26,34 @@ border : 1px solid orange;
 
 //함수 선언부
 /////////////////////////////////////////////////////////////////////
+
 //이미지 미리보기 부분
+//사진 전부 지우기 시 실행되는 함수
+function delPictGo(){
+	//미리보기된 부분을 삭제
+	$("#uploadBpict1").html("+");
+	$("#uploadBpict2").html("+");
+	$("#uploadBpict3").html("+");
+	
+	$("#uploadBpict1").css('width','150px');
+	$("#uploadBpict1").css('height','150px');
+	$("#uploadBpict2").css('width','150px');
+	$("#uploadBpict2").css('height','150px');
+	$("#uploadBpict3").css('width','150px');
+	$("#uploadBpict3").css('height','150px');
+	
+	$("#uploadBpict2").css('display','none');
+	$("#uploadBpict3").css('display','none');
+	
+	$("#delPict").remove();
+	
+	$("#bpictSel1").val("");
+	$("#bpictSel2").val("");
+	$("#bpictSel3").val("");
+	
+	
+}
+
 //그림파일 업로드 onchange시 실행되는 함수
 
 function setThumbnail(pictNo, event) {
@@ -36,7 +63,7 @@ function setThumbnail(pictNo, event) {
 		reader.onload = function(event) { // 파일이 읽혀지면 실행되는 함수
 			var img = document.createElement("img"); //이미지 객체 생성
 			img.setAttribute("src", event.target.result);
-
+			
 			/////////////////////////////////////////////////////
 			$("#uploadBpict"+pictNo).html(""); //업로드 버튼에 있는 내용을 미리 지워줌
 			document.querySelector("div#uploadBpict"+pictNo).appendChild(img); //해당 쿼리셀렉터에 img를 넣어줌.
@@ -55,7 +82,10 @@ function setThumbnail(pictNo, event) {
 		//alert("nextNo : " + nextNo);
 		$("#uploadBpict"+nextNo).css("display","block");
 		}else{
-			alert("앗! 사진은 3장까지만 첨부 가능해요!");
+			alert("사진은 3장까지만 첨부 가능해요!");
+			let appendHtml ="";
+			appendHtml += "<button type='button' id='delPict' onclick='javascript:delPictGo()'> 사진 전부 삭제! </button>";
+			$("#imageUploadTable").append(appendHtml);
 		}
 		
 	}
@@ -250,40 +280,43 @@ $(function(){
 		<p style="color:darkred; font-weight:bold;"><small>이미지가 정사각형이 아니면 부분적으로 잘릴 수 있어요! 주의해주세요!</small></p>
 			<div id="imageUploadTable">
 					<div id="uploadBpict1">+</div>
-					<div id="uploadBpict2">+</div>
-					<div id="uploadBpict3">+</div>
-			</div>
-			
-			<div id="uploadForm1">
+					<div id="uploadForm1">
 							<h2><b>첫번째 사진을 업로드합니다!</b></h2>
 							
-							<input type="file" name="bpict" accept="image/gif, image/jpeg, image/png" onchange="setThumbnail(1,event);"/>
+							<input type="file" name="bpict" id="bpictSel1" accept="image/gif, image/jpeg, image/png" onchange="setThumbnail(1,event);"/>
 							<br>
 							<br>
 							<br>
 							<br>
 							<p id="popClose1">닫기</p>
-			</div>
-			
-			<div id="uploadForm2">
+					</div>
+					<div id="uploadBpict2">+</div>
+					<div id="uploadForm2">
 							<h2><b>두번째 사진을 업로드합니다!</b></h2>
-							<input type="file" name="bpict" accept="image/gif, image/jpeg, image/png"  onchange="setThumbnail(2,event);"/>
+							<input type="file" name="bpict"  id="bpictSel2" accept="image/gif, image/jpeg, image/png"  onchange="setThumbnail(2,event);"/>
 							<br>
 							<br>
 							<br>
 							<br>
 							<p id="popClose2">닫기</p>
-			</div>	
-			
-			<div id="uploadForm3">
+					</div>	
+					<div id="uploadBpict3">+</div>
+					<div id="uploadForm3">
 						<h2><b>세번째 사진을 업로드합니다!</b></h2>
-						<input type="file" name="bpict" accept="image/gif, image/jpeg, image/png"  onchange="setThumbnail(3,event);"/>
+						<input type="file" name="bpict"  id="bpictSel3"  accept="image/gif, image/jpeg, image/png"  onchange="setThumbnail(3,event);"/>
 						<br>
 						<br>
 						<br>
 						<br>
 						<p id="popClose3">닫기</p>
+					</div>
 			</div>
+			
+			
+			
+			
+			
+			
 	</div>
 			
 	

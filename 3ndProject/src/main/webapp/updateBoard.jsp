@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -37,10 +38,40 @@ let boardcate = ${board.boardcate };
 let alarm = ${board.alarm };
 
 
-
 //함수 선언부
 /////////////////////////////////////////////////////////////////////
 //이미지 미리보기 부분
+//사진 전부 지우기 시 실행되는 함수
+function delPictGo(){
+
+	//미리보기된 부분을 삭제
+	$("#uploadBpict1").html("+");
+	$("#uploadBpict2").html("+");
+	$("#uploadBpict3").html("+");
+	
+	$("#uploadBpict1").css('width','150px');
+	$("#uploadBpict1").css('height','150px');
+	$("#uploadBpict2").css('width','150px');
+	$("#uploadBpict2").css('height','150px');
+	$("#uploadBpict3").css('width','150px');
+	$("#uploadBpict3").css('height','150px');
+	
+	$("#uploadBpict2").css('display','none');
+	$("#uploadBpict3").css('display','none');
+	
+	$("#delPict").remove();
+	
+	$("#bpictSel1").val("");
+	$("#bpictSel2").val("");
+	$("#bpictSel3").val("");
+	
+	$("#oriPict1").val("");
+	$("#oriPict2").val("");
+	$("#oriPict3").val("");
+	
+	
+}
+
 //그림파일 업로드 onchange시 실행되는 함수
 
 function setThumbnail(pictNo, event) {
@@ -70,6 +101,9 @@ function setThumbnail(pictNo, event) {
 		$("#uploadBpict"+nextNo).css("display","block");
 		}else{
 			alert("앗! 사진은 3장까지만 첨부 가능해요!");
+			let appendHtml ="";
+			appendHtml += "<button type='button' id='delPict' onclick='javascript:delPictGo()'> 사진 전부 삭제! </button>";
+			$("#imageUploadTable").append(appendHtml);
 		}
 		
 	}
@@ -112,6 +146,19 @@ $(function(){
 	$("#uploadBpict3").css('display','block');
 	$("#uploadBpict3").css('width','30%');
 	$("#uploadBpict3").css('height','300px');
+	
+	if(bpict1 == ""){
+		$("#uploadBpict1").css('width','150px');
+		$("#uploadBpict1").css('height','150px');
+		
+		$("#uploadBpict2").css('display','none');
+		$("#uploadBpict2").css('width','150px');
+		$("#uploadBpict2").css('height','150px')
+		$("#uploadBpict3").css('display','none');;
+		$("#uploadBpict3").css('width','150px');
+		$("#uploadBpict3").css('height','150px');
+	}
+	
 	/////////////////
 	//말머리 미리 지정
 	if(boardcate == 1){
@@ -269,9 +316,9 @@ $(function(){
 	
 	
 	
-	<input type="hidden" name="oriPict1" value="${board.bpict1 }">
-	<input type="hidden" name="oriPict2" value="${board.bpict2 }">
-	<input type="hidden" name="oriPict3" value="${board.bpict3 }">
+	<input type="hidden" name="oriPict1" id="oriPict1" value="${board.bpict1 }">
+	<input type="hidden" name="oriPict2" id="oriPict2" value="${board.bpict2 }">
+	<input type="hidden" name="oriPict3" id="oriPict3" value="${board.bpict3 }">
 	
 	<input type="hidden" name="bidx" value="${board.bidx }">
 	<input type="hidden" name="midx" value="${user.midx }">
@@ -296,38 +343,57 @@ $(function(){
 		<p id="subTitleSpace">내용을 작성해볼까요?</p>
 		<p style="color:darkred; font-weight:bold;"><small>이미지가 정사각형이 아니면 부분적으로 잘릴 수 있어요! 주의해주세요!</small></p>
 			<div id="imageUploadTable">
-					<div id="uploadBpict1"><img src="./images/${board.bpict1 }"></div>
+						<c:if test="${board.bpict1 != null}">
+							<div id="uploadBpict1"><img src="./images/${board.bpict1 }"></div>
+						</c:if>
+						<c:if test="${board.bpict1 == null}">
+							<div id="uploadBpict1">+</div>
+						</c:if>
+						
 						<div id="uploadForm1">
 							<h2><b>첫번째 사진을 수정합니다!</b></h2>
 							
-							<input type="file" name="bpict" accept="image/gif, image/jpeg, image/png" onchange="setThumbnail(1,event);"/>
+							<input type="file" name="bpict" id="bpictSel1" accept="image/gif, image/jpeg, image/png" onchange="setThumbnail(1,event);"/>
 							<br>
 							<br>
 							<br>
 							<br>
 							<p id="popClose1">닫기</p>
 						</div>
-					<div id="uploadBpict2"><img src="./images/${board.bpict2 }"></div>
+						
+						<c:if test="${board.bpict2 != null}">
+							<div id="uploadBpict2"><img src="./images/${board.bpict2 }"></div>
+						</c:if>
+						<c:if test="${board.bpict2 == null}">
+							<div id="uploadBpict2">+</div>
+						</c:if>
 						<div id="uploadForm2">
 								<h2><b>두번째 사진을 수정합니다!</b></h2>
-								<input type="file" name="bpict" accept="image/gif, image/jpeg, image/png"  onchange="setThumbnail(2,event);"/>
+								<input type="file" name="bpict" id="bpictSel2" accept="image/gif, image/jpeg, image/png"  onchange="setThumbnail(2,event);"/>
 								<br>
 								<br>
 								<br>
 								<br>
 								<p id="popClose2">닫기</p>
-						</div>	
-					<div id="uploadBpict3"><img src="./images/${board.bpict3 }"></div>
-					
+						</div>
+						<c:if test="${board.bpict3 != null}">
+							<div id="uploadBpict3"><img src="./images/${board.bpict3 }"></div>
+						</c:if>
+						<c:if test="${board.bpict3 == null}">
+							<div id="uploadBpict3">+</div>
+						</c:if>
 						<div id="uploadForm3">
 							<h2><b>세번째 사진을 수정합니다!</b></h2>
-							<input type="file" name="bpict" accept="image/gif, image/jpeg, image/png"  onchange="setThumbnail(3,event);"/>
+							<input type="file" name="bpict" id="bpictSel3" accept="image/gif, image/jpeg, image/png"  onchange="setThumbnail(3,event);"/>
 							<br>
 							<br>
 							<br>
 							<br>
 							<p id="popClose3">닫기</p>
 						</div>
+					<c:if test="${board.bpict3 != null }">
+						<button type='button' id='delPict' onclick='javascript:delPictGo()'> 사진 전부 삭제! </button>
+					</c:if>
 			</div>
 	</div>
 			

@@ -22,4 +22,9 @@ public class MemberServiceImpl implements MemberService{
 		return memberDAO.getMemberList();
 	}
 
+	@Override
+	public void registMember(MemberVO mvo) {
+		memberDAO.registMember(mvo);
+	}
+
 }

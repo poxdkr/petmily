@@ -7,7 +7,6 @@ public interface BoardService {
 	//전체 리스트 불러오기
 	List<BoardVO> getBoardList();
 	
-	
 	//검색조건으로 보드 찾기 (사용자의 아이디 / 카테고리 / 제목) 
 	List<BoardVO> getBoardListByKeyword(BoardVO bvo);
 	

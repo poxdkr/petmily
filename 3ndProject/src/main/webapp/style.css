@@ -437,6 +437,21 @@ div[id^=uploadForm] {
 	cursor:pointer;
 }
 
+#delPict{
+	margin-top:20px;
+	border: none;
+	border-radius: 5px;
+	width: 200px;
+	height: 50px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#delPict:hover{
+	background-color: darkgrey;
+	color:white;
+	transition : 0.5s;
+}
 
 /* 작성자의 마이페이지 및 쪽지보내기 탭 컨트롤 */
 li {
@@ -504,13 +519,55 @@ input[id^=recommentMenuBtn]:checked ~ ul[class^=recommentSubmenu] {
 }
 
 
-
-
-
 p[id^=popClose]:hover {
 	text-decoration: underline;
 	cursor: pointer;
 }
 
 
+#registerTable{
+	display : none;
+	position:absolute;
+	top : 25%;
+	left : 33%;
+	border : 2px solid orange;
+	text-align: center;
+	background-color: white;
+	padding : 20px 50px;
+	border-radius: 20px;
+}
+
+#registerTable td {
+	padding : 10px;
+	font-weight: bold;
+	color : darkgrey;
+}
+
+#registerTable td input {
+	padding : 5px;
+	border : 2px solid darkgrey;
+	border-radius : 5px;
+	font-weight: bold;
+	color : orange;
+}
+
+#registerTable td img{
+	border : 3px solid darkgrey;
+	border-radius : 5px;
+}
+
+#submitBtn {
+	border: none;
+	border-radius: 5px;
+	width: 200px;
+	height: 50px;
+	font-size: 20px;
+	font-weight: bold;
+}
+#submitBtn:hover {
+	background-color: orange;
+	color:white;
+	transition : 0.5s;
+	cursor: pointer;
+}
 
