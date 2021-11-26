@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="favoriteListDAO">
+<select id="listPaging" parameterType="com.project.petmily.favorite.FavoriteListVO" resultType="com.project.petmily.favorite.FavoriteListVO">
+	SELECT *
+	FROM (SELECT ROWNUM NUM
+			   , F.FIDX
+			   , F.BIDX
+			   , F.BOARDCATE
+			   , B.BTITLE
+			   , B.BPICT1
+	      FROM   FAVORITE F
+	           , BOARD B
+          WHERE  F.BIDX = B.BIDX
+            AND  F.MIDX = #{midx}
+	<choose>
+        <when test="boardcate == 1">
+        	AND  F.BOARDCATE = 1
+        </when>
+        <when test="boardcate == 2">
+        	AND  F.BOARDCATE = 2
+        </when>
+        <when test="boardcate == 3">
+        	AND  F.BOARDCATE = 3
+        </when>
+        <when test="boardcate == 4">
+        	AND  F.BOARDCATE BETWEEN 4 AND 5
+        </when>
+        <otherwise>
+        </otherwise>
+    </choose>
+          ORDER BY F.FIDX)
+    WHERE NUM BETWEEN #{startRowNum} AND #{endRowNum}
+</select>
+
+<!-- 카테고리별 게시물 수 카운트 -->
+<select id="listCnt" parameterType="com.project.petmily.favorite.FavoriteListVO" resultType="com.project.petmily.favorite.FavoriteListVO">
+SELECT COUNT(CASE WHEN MIDX = #{midx} THEN 1 END) AS ALLCNT
+     , COUNT(CASE WHEN MIDX = #{midx} AND BOARDCATE = 1 THEN 1 END) AS CATCNT
+     , COUNT(CASE WHEN MIDX = #{midx} AND BOARDCATE = 2 THEN 1 END) AS DOGCNT
+     , COUNT(CASE WHEN MIDX = #{midx} AND BOARDCATE = 3 THEN 1 END) AS FREECNT
+     , COUNT(CASE WHEN MIDX = #{midx} AND BOARDCATE = 4 THEN 1 END) + COUNT(CASE WHEN MIDX = #{midx} AND BOARDCATE = 5 THEN 1 END) AS KNOWCNT
+FROM   FAVORITE
+</select>
+</mapper>

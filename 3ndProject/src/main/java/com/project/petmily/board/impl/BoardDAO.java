@@ -33,13 +33,12 @@ public class BoardDAO {
 
 	public void updateBoard(BoardVO bvo) {
 		sst.update("board.updateBoard",bvo);
-		
 	}
 
 	public void deleteBoard(BoardVO bvo) {
 		sst.delete("board.deleteBoard",bvo);
 	}
-
+	
 	public void updateBoardAlarm(BoardVO bvo) {
 		sst.update("board.updateBoardAlarm",bvo);
 		
@@ -47,7 +46,13 @@ public class BoardDAO {
 
 	public void resetBoardAlarm(BoardVO bvo) {
 		sst.update("board.resetBoardAlarm",bvo);
-		
 	}
 	
+	public int getBoardCount(BoardVO bvo) {
+		return sst.selectOne("board.getBoardCount", bvo);
+	}
+	
+	public List<BoardVO> getBoardListA(BoardVO bvo) {
+		return sst.selectList("board.getBoardListA", bvo);
+	}
 }

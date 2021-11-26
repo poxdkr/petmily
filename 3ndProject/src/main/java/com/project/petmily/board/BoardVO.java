@@ -14,13 +14,14 @@ public class BoardVO {
 	Date bregdate;
 	int boardcate;
 	int alarm;
+	int likecnt;
 	
 	//검색을 위한 조건
 	String searchCondition;
 	String searchKeyword;
 	
 	
-
+	
 	public String getSearchCondition() {
 		return searchCondition;
 	}
@@ -136,17 +137,22 @@ public class BoardVO {
 	public void setAlarm(int alarm) {
 		this.alarm = alarm;
 	}
-
 	
+	public int getLikecnt() {
+		return likecnt;
+	}
+
+	public void setLikecnt(int likecnt) {
+		this.likecnt = likecnt;
+	}
+
 	@Override
 	public String toString() {
 		return "BoardVO [bidx=" + bidx + ", midx=" + midx + ", btitle=" + btitle + ", btext=" + btext + ", bpict1="
 				+ bpict1 + ", bpict2=" + bpict2 + ", bpict3=" + bpict3 + ", bregdate=" + bregdate + ", boardcate="
 				+ boardcate + ", alarm=" + alarm + ", searchCondition=" + searchCondition + ", searchKeyword="
-				+ searchKeyword + ", uploadFile=" + "]";
+				+ searchKeyword + "]";
 	}
-
-
 
 
 	

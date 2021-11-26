@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="advertise">
+
+
+	<select id="getAdvertiseList" resultType="advertise">
+      <![CDATA[
+         SELECT AIDX, ACONTENT, ALINK, APICTURE, AREGDATE, ATITLE, ACOUNT
+            FROM(
+               SELECT
+               ROWNUM RN, AIDX, ACONTENT, ALINK, APICTURE, AREGDATE, ATITLE, ACOUNT
+               FROM (SELECT * FROM ADVERTISE ORDER BY AREGDATE DESC)
+               WHERE ROWNUM <= #{pageNum} * #{amount}
+      ]]>         
+         <if test="keyword != null">
+            AND ATITLE LIKE '%'||#{keyword }||'%'
+         </if>    
+             
+      <![CDATA[            
+            )
+            WHERE RN > (#{pageNum}-1) * #{amount}
+      ]]>
+   </select>
+
+
+
+	<select id="getAdvertise" parameterType="advertise"
+		resultType="advertise">
+		SELECT * FROM ADVERTISE WHERE AIDX = #{aidx }
+	</select>
+
+	<insert id="insertAdvertise" parameterType="advertise">
+		INSERT INTO ADVERTISE
+		(AIDX, ACONTENT, ALINK, APICTURE, ACOUNT, AREGDATE, ATITLE)
+		VALUES
+		((SELECT NVL(MAX(AIDX), 0)+1 FROM ADVERTISE), #{acontent}, #{alink},
+		#{apicture}, 0, SYSDATE, #{atitle})
+
+	</insert>
+
+	<update id="updateAdvertise" parameterType="advertise">
+		UPDATE ADVERTISE
+		SET ATITLE = #{atitle},
+		ACONTENT = #{acontent},
+		ALINK = #{alink},
+		APICTURE = #{apicture}
+		WHERE AIDX = #{aidx}
+	</update>
+
+	<!-- 게시글 삭제 -->
+	<delete id="deleteAdvertise" parameterType="advertise">
+		DELETE FROM ADVERTISE
+		WHERE AIDX = #{aidx}
+	</delete>
+
+	<!-- 총 게시글 갯수 출력 -->
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*) FROM
+		ADVERTISE WHERE AIDX > 0
+		<if test="keyword != null">
+			AND ATITLE LIKE '%'||#{keyword }||'%'
+		</if>
+	</select>
+
+	<!-- ================황균이형=============== -->
+	<select id="getAdvertiseListAll" resultType="advertise">
+		SELECT * FROM ADVERTISE
+	</select>
+
+	<update id="plusCntAd" parameterType="advertise">
+		UPDATE ADVERTISE SET
+		ACOUNT = (SELECT NVL(MAX(ACOUNT),0)+1 FROM ADVERTISE)
+		WHERE AIDX = #{aidx} 
+	</update>
+
+</mapper>

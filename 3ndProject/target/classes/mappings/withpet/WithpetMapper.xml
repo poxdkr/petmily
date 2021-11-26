@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="withpetDAO">
+	<!-- 위드펫 입력 -->
+	<insert id="insertWithpet" parameterType="withpet">
+		INSERT INTO WITHPET (WIDX, PLACENAME, PLACETYPE, CONTENT, LOCATION, LINK, THUMBNAIL, TOTALADDRESS) 
+		VALUES ((SELECT NVL(MAX(WIDX),0)+1 FROM WITHPET), 
+				#{placename}, #{placetype}, #{content}, #{location}, #{link}, #{thumbnail}, #{totalAddress} )
+	</insert>
+	
+	<!-- 위드펫 수정 -->
+	<update id="updateWithpet" parameterType="withpet">
+		UPDATE WITHPET SET
+		PLACENAME = #{placename},
+		PLACETYPE = #{placetype},
+		CONTENT = #{content},
+		LOCATION = #{location},
+		LINK = #{link},
+		THUMBNAIL = #{thumbnail},
+		TOTALADDRESS = #{totalAddress}
+		
+		WHERE WIDX = #{widx}
+	</update>
+	
+	<!-- 위드펫 삭제 -->
+	<delete id="deleteWithpet" parameterType="withpet">
+		DELETE FROM WITHPET WHERE WIDX = #{widx}
+	</delete>
+	
+	<!-- 위드펫 상세 보기 -->
+	<select id="getWithpet" parameterType="withpet" resultType="withpet">
+		SELECT * FROM WITHPET
+		WHERE WIDX = #{widx}
+	</select>
+	
+	<!-- 위드펫 전체 보기 -->
+	<select id="getWithpetList" parameterType="withpet" resultType="withpet">
+		SELECT * FROM WITHPET 
+		WHERE 1=1
+		<if test="searchKeyword != null">
+			AND PLACENAME LIKE '%'|| #{searchKeyword} ||'%'
+		</if>
+		ORDER BY WIDX DESC
+	</select>
+	
+	<!-- 위드펫 목록별로 나눠서 보기 -->
+	<select id="getWithpetListType" parameterType="withpet" resultType="withpet">
+		SELECT * FROM WITHPET 
+		WHERE 1=1
+		<if test="placetype != 0">
+			AND PLACETYPE = #{placetype}
+		</if>
+		ORDER BY WIDX DESC
+	</select>
+	
+	<select id="getWithpetCount" parameterType="withpet" resultType="int">
+		SELECT COUNT(*) FROM WITHPET
+		<if test="placetype != 0">
+			WHERE PLACETYPE = #{placetype}
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+

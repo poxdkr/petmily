@@ -10,11 +10,12 @@
 <!-- 프로젝트 이하의 컴포넌트 전부 스캔 -->
 <context:component-scan base-package="com.project.petmily"></context:component-scan>
 
+<!-- @GetMapping, @PostMapping 사용시 추가 설정 -->
+<mvc:annotation-driven />
+	
 <!-- 파일 업로드 설정 -->
-
 <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 	<property name="maxUploadSize" value="20000000"/> <!-- 최대 업로드 사이즈 대략 20MB -->
-
 </bean>
 
 <!-- 예외처리를 위한 설정 -->
@@ -32,6 +33,6 @@
 		</bean>
 		 -->
 		
-	<mvc:annotation-driven/>
+	
 
 </beans>

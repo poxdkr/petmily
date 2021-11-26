@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="reportDetailDAO">
+	<select id="reportList" resultType="com.project.petmily.faq.ReportDetailVO">
+		SELECT DISTINCT RTYPE, RNUM,
+		(SELECT COUNT(*) FROM REPORT WHERE RTYPE = P.RTYPE AND RNUM = P.RNUM) RCOUNT 
+		FROM REPORT P
+		ORDER BY RCOUNT DESC
+	</select>
+	<select id="reportBoard" parameterType="com.project.petmily.faq.ReportDetailVO" resultType="com.project.petmily.faq.ReportDetailVO">
+		SELECT B.BIDX, B.BTITLE, B.BTEXT, B.BPICT1, B.BPICT2, B.BPICT3, M.MIDX, M.MNICKNAME AS RTNICK  
+		FROM MEMBER M, BOARD B
+		WHERE B.MIDX = M.MIDX 
+		AND B.BIDX = #{rnum }
+	</select>
+	<select id="reportBoardReply" parameterType="com.project.petmily.faq.ReportDetailVO" resultType="com.project.petmily.faq.ReportDetailVO">
+		SELECT R.RIDX AS RIDX1, R.RCONTENT, R.BIDX, M.MIDX, M.MNICKNAME AS RTNICK 
+		FROM MEMBER M, REPLY R
+		WHERE R.MIDX = M.MIDX 
+		AND R.RIDX = #{rnum }
+	</select>
+	<select id="reportCount" parameterType="com.project.petmily.faq.ReportDetailVO" resultType="com.project.petmily.faq.ReportDetailVO">
+		SELECT COUNT(*) as rcount FROM REPORT WHERE RTYPE = #{rtype } AND RNUM = #{rnum }
+	</select>
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*) FROM MEMBER WHERE RIDX > 0
+	</select>
+	<select id="getReportContent" parameterType="com.project.petmily.faq.ReportDetailVO" resultType="com.project.petmily.faq.ReportDetailVO">
+		SELECT R.*, M.MNICKNAME AS RFNICK FROM REPORT R, MEMBER M
+		WHERE R.RFROM = M.MIDX
+		AND RTYPE = #{rtype }
+		AND RNUM = #{rnum }
+	</select>
+	<delete id="boardReportDelete" parameterType="com.project.petmily.faq.ReportDetailVO">
+		DELETE FROM BOARD WHERE BIDX = ${bidx}
+	</delete>
+	<delete id="replyReportDelete" parameterType="com.project.petmily.faq.ReportDetailVO">
+		DELETE FROM REPLY WHERE RIDX = ${ridx1}
+	</delete>
+	<delete id="deleteReport" parameterType="com.project.petmily.faq.ReportDetailVO">
+		DELETE FROM REPORT WHERE RNUM = ${rnum}
+	</delete>
+</mapper>

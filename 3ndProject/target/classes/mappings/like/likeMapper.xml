@@ -9,9 +9,9 @@
 </select>
 
 <insert id ="insertLike" parameterType="com.project.petmily.like.LikeVO">
-INSERT INTO LIKES(LIDX, BIDX, MIDX)
+INSERT INTO LIKES(LIDX, BIDX, MIDX, BOARDCATE)
 VALUES(
-(SELECT NVL(MAX(LIDX),0)+1 FROM LIKES), #{bidx}, #{midx})
+(SELECT NVL(MAX(LIDX),0)+1 FROM LIKES), #{bidx}, #{midx}, #{boardcate})
 </insert>
 
 <delete id="deleteLike"  parameterType="com.project.petmily.like.LikeVO">

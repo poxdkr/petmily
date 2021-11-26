@@ -2,8 +2,10 @@ package com.project.petmily.advertise;
 
 import java.sql.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class AdvertiseVO {
-	private int aidx; 
+	private int aidx;
 	private String acontent;
 	private String alink;
 	private String apicture;
@@ -11,21 +13,9 @@ public class AdvertiseVO {
 	private int acount;
 	private Date aregdate;
 	private String atitle;
-	
-	public AdvertiseVO() {
-	}
 
-	public AdvertiseVO(int aidx, String acontent, String alink, String apicture, String aori, int acount, Date aregdate,
-			String atitle) {
-		super();
-		this.aidx = aidx;
-		this.acontent = acontent;
-		this.alink = alink;
-		this.apicture = apicture;
-		this.aori = aori;
-		this.acount = acount;
-		this.aregdate = aregdate;
-		this.atitle = atitle;
+	public AdvertiseVO() {
+		System.out.println("AdvertiseVO 객체 생성");
 	}
 
 	public int getAidx() {
@@ -60,14 +50,6 @@ public class AdvertiseVO {
 		this.apicture = apicture;
 	}
 
-	public String getAori() {
-		return aori;
-	}
-
-	public void setAori(String aori) {
-		this.aori = aori;
-	}
-
 	public int getAcount() {
 		return acount;
 	}
@@ -95,10 +77,15 @@ public class AdvertiseVO {
 	@Override
 	public String toString() {
 		return "AdvertiseVO [aidx=" + aidx + ", acontent=" + acontent + ", alink=" + alink + ", apicture=" + apicture
-				+ ", aori=" + aori + ", acount=" + acount + ", aregdate=" + aregdate + ", atitle=" + atitle + "]";
+				+ ", acount=" + acount + ", aregdate=" + aregdate + ", atitle=" + atitle + "]";
 	}
-	
-	
-	
-	
+
+	public String getAori() {
+		return aori;
+	}
+
+	public void setAori(String aori) {
+		this.aori = aori;
+	}
+
 }

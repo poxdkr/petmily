@@ -5,13 +5,15 @@
   
 <mapper namespace="board">
 <select id="getBoardList" resultType="com.project.petmily.board.BoardVO">
-	SELECT * FROM BOARD ORDER BY BIDX DESC
+	SELECT * FROM BOARD 
+	WHERE BOARDCATE BETWEEN 1 AND 3
+	ORDER BY BIDX DESC
 </select>
 
 <select id="getBoardListByKeyword" resultType="com.project.petmily.board.BoardVO" parameterType="com.project.petmily.board.BoardVO">
 	SELECT * FROM BOARD 
-	WHERE BOARDCATE = #{boardcate} AND 
-	BTITLE LIKE '%'||#{searchKeyword}||'%' 
+	WHERE BOARDCATE = #{boardcate} AND BTITLE LIKE '%'||#{searchKeyword}||'%' 
+	AND BOARDCATE BETWEEN 1 AND 3
 </select>
 
 <select id="getBoard" resultType="com.project.petmily.board.BoardVO" parameterType="com.project.petmily.board.BoardVO">
@@ -51,4 +53,26 @@ ALARM = 0
 WHERE BIDX=#{bidx}
 </update>
 
+<!-- =================안민우 추가================ -->
+<select id="getBoardCount" parameterType="com.project.petmily.board.BoardVO" resultType="int">
+	SELECT COUNT(*) FROM BOARD
+	WHERE BOARDCATE BETWEEN 1 AND 3
+	<if test="boardcate != 0">
+		AND BOARDCATE = #{boardcate}
+	</if>
+</select>
+
+<select id="getBoardListA" parameterType="com.project.petmily.board.BoardVO" resultType="com.project.petmily.board.BoardVO">
+	SELECT B.*, (SELECT COUNT(*) FROM LIKES WHERE B.BIDX = BIDX) AS LIKECNT
+		FROM BOARD B
+		WHERE 1=1
+		<if test="searchKeyword != null">
+			AND BTITLE LIKE '%'|| #{searchKeyword} ||'%'
+		</if>
+		<if test="boardcate != 0">
+			AND B.BOARDCATE = #{boardcate}
+		</if>
+		AND BOARDCATE BETWEEN 1 AND 3
+		ORDER BY BREGDATE DESC
+</select>
 </mapper>

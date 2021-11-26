@@ -1,0 +1,573 @@
+@charset "UTF-8";
+
+body{
+	font-family: '맑은고딕', 'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New';
+	
+}
+
+#container {
+	margin: 0 auto;
+	width: 75%;
+	display: block;
+}
+
+.titleSpace {
+	width: 90%;
+	padding: 0px 30px;
+	display: inline-block;
+}
+
+#titleContainer {
+	float: left;
+}
+
+#detailNickname {
+	float: right;
+}
+
+#detailNickname a:hover {
+	text-decoration: underline;
+}
+
+.pictureSpace {
+	text-align: center;
+	width: 400px;
+	height: 700px;
+	float: left;
+}
+
+#pictureTable {
+	margin: 0 auto;
+	border: 1px solid grey;
+	border-radius: 10px;
+	padding: 2px;
+	height: 720px;
+}
+
+#mainPict {
+	height: 500px;
+	overflow: hidden;
+}
+
+#mainPict img {
+	width: 390px;
+}
+
+#pict1 {
+	opacity: 70%;
+	transition: 0.5s;
+	width: 120px;
+	overflow: hidden;
+}
+
+#pict1:hover {
+	opacity: 100%;
+	cursor: pointer;
+}
+
+#pict1 img, #pict2 img, #pict3 img {
+	width: 120px;
+	
+}
+
+#pict2 {
+	opacity: 70%;
+	transition: 0.5s;
+	overflow: hidden;
+}
+
+#pict2:hover {
+	opacity: 100%;
+	cursor: pointer;
+}
+
+#pict3 {
+	opacity: 70%;
+	transition: 0.5s;
+	overflow: hidden;
+}
+
+#pict3:hover {
+	opacity: 100%;
+	cursor: pointer;
+}
+
+a {
+	text-decoration: none;
+	color: grey;
+}
+
+#reportSpace {
+	margin: auto;
+	text-align: center;
+	border: 1px solid orange;
+	display: none;
+	position: absolute;
+	top: 500px;
+	left: 900px;
+	background-color: white;
+	border-radius: 15px;
+	padding: 10px;
+}
+
+#reportTable {
+	margin: 0 auto;
+}
+
+h2 {
+	color: orange;
+	font-size: 1.4em;
+}
+
+.reportBtn {
+	border: none;
+	border-radius: 5px;
+	width: 100px;
+	height: 40px;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+#likeControll, #favControll, #reportControll {
+	cursor: pointer;
+}
+
+.reportBtn:hover {
+	background-color: orange;
+	color: white;
+	transition: 0.5s;
+}
+
+#recommentSubmit {
+	border: none;
+	border-radius: 5px;
+	width: 70px;
+	height: 20px;
+	font-size: 8px;
+	font-weight: bold;
+}
+
+input[id^=recommentVal] {
+	width: 300px;
+	padding: 5px 0px;
+	font-size: 6px;
+	border: 1px solid grey;
+	border-radius: 5px;
+}
+
+#recommentSubmit:hover {
+	background-color: orange;
+	color: white;
+	transition: 0.5s;
+}
+
+.contentTextSpace {
+	width: 40%;
+	float: left;
+	margin-left: 5px;
+	padding: 10px
+}
+
+#textSpace {
+	padding: 30px;
+	height: 600px;
+	font-weight: bold;
+}
+
+.moreConfig {
+	font-weight: bold;
+	float: right;
+}
+
+.configBoard {
+	margin-left: 40px;
+	font-weight: bold;
+	color: grey;
+	float: right;
+}
+
+.midSpace {
+	width: 100%;
+	margin: 0 auto;
+	float: right;
+	text-align: center;
+	font-weight: bold;
+}
+
+#adSpace {
+	width: 150px;
+	height: 450px;
+	position : fixed;
+	top : 100px;
+	right : 20px;
+	font-weight: bold;
+}
+
+#replyTable {
+	margin: 0 auto;
+	padding: 10px;
+	border: 0.1px solid grey;
+	background-color: white;
+	border-radius: 10px;
+	width: 700px;
+}
+
+#reportReply, #recomment, #replyControll {
+	font-size: 0.7em;
+	color: grey;
+	text-align: right;
+}
+
+.writerWrap {
+	border-top: 1px solid black;
+}
+
+#replyControll {
+	border-bottom: 1px solid lightgrey;
+}
+
+td[id^=repNo], #replyReg {
+	color: grey;
+	font-weight: bold;
+	font-size: 0.8em;
+	padding: 5px;
+	text-align: left;
+}
+
+#replyTable tr:nth-child(3n) {
+	background-color: white;
+}
+
+#replyVal {
+	padding: 5px;
+	width: 500px;
+	height: 35px;
+	font-family: sans-serif;
+	border: 2px solid grey;
+	border-radius: 10px;
+}
+
+#replyContent {
+	font-size: 0.8em;
+	padding: 5px 20px;
+}
+
+#moreBoard{
+	float:left;
+	width : 100%;
+	text-align: center;
+	font-weight: bold;
+	color : orange;
+	cursor: pointer;
+	border-top: 1px solid orange;
+	border-bottom : 1.5px solid orange;
+	
+}
+
+
+#footSpace{
+	margin : 0 auto;
+	float:left;
+	width : 100%;
+	display:none;
+}
+
+#closebox {
+	padding : 0px;
+	text-align: center;
+	color : darkgrey;
+	font-size : 0.8em;
+	cursor: pointer;
+}
+#closebox p:hover, #moreBoard p:hover{
+	text-decoration: underline;
+}
+
+#stickTool{
+	text-align : center;
+	position : fixed;
+	top : 90%;
+	left : 80%;
+	width : 200px;
+}
+
+div[id^=boardBox] {
+	width:19%;
+	float:left;
+	text-align : center;
+	margin-left : auto;
+	cursor: pointer;
+	font-weight: bold;
+	color : darkgrey;
+	opacity: 60%;
+}
+
+div[id^=boardBox]:hover {
+	background-color: ghostwhite;
+	transition : 0.5s;
+	opacity: 100%;
+}
+
+#boardTable{
+	margin : auto;
+}
+
+#stickTool{
+	text-align : center;
+	position : fixed;
+	top : 80%;
+	right : 0px;
+}
+
+#writeBtn, #backBtn{
+	width : 70px;
+	height : 70px;
+	border-radius : 50%;
+	border : none;
+	font-weight : bold;
+	font-size: 1.1em;
+}
+
+
+#writeBtn:hover {
+	border : 2px solid black;
+	width : 69px;
+	height : 69px;
+	background-color: orange;
+	color : white;
+	transition : 0.5s;
+}
+
+#backBtn:hover {
+	border : 2px solid black;
+	width : 69px;
+	height : 69px;
+	background-color: orange;
+	color : white;
+	transition : 0.5s;
+}
+
+#titleSpace, #titleinputSpace,#imageInputSpace,#contentInputSpace,#bottomSpace{
+	width : 100%;
+	float:left;
+	text-align: center;
+}
+
+#titleSpace h1{
+	color : darkgrey;
+	font-weight:bold;
+}
+
+#imageInputSpace{
+	padding : 20px;
+	
+}
+
+#titleInput select,#titleInput input {
+	height : 50px;
+	border : 1px solid darkgrey;
+	border-radius: 10px;
+	font-weight : bold;
+	font-size : 1.2em;
+} 
+
+
+#titleInput input {
+	width : 400px;
+}
+#subTitleSpace{
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+#imageUploadTable{
+	width : 100%;
+	margin : 0 auto;
+	text-align:center;
+}
+
+div[id^=uploadForm]>input {
+	font-size : 0.8em;
+	background-color: lightyellow;
+	font-weight : bold;
+	margin : auto;
+}
+
+div[id^=uploadForm] {
+	text-align:center;
+	margin: auto;
+	display:none;
+    width : 600px;
+    height : 200px;
+    border : 5px solid black;
+    border-radius : 5px;
+    font-size: 0.8em;
+    font-weight : bold;
+    background-color: white;
+    border-radius: 15px;
+    padding: 5px;
+}
+
+
+#imageUploadTable div[id^=uploadBpict]{
+	
+	margin : auto;
+	width : 150px;
+	height : 150px;
+	border : 5px solid lightgrey;
+	opacity:80%;
+	border-radius: 10px;
+	background-color: 	#FFFFE0;
+	color : lightgrey;
+	font-size : 1.5em;
+	font-weight : bold;
+	overflow: hidden;
+}
+
+
+#uploadBpict2, #uploadBpict3 {
+	display: none;
+}
+
+
+#imageUploadTable div[id^=uploadBpict]:hover {
+	opacity:100%;
+	border : 5px solid black;
+	color : black;
+	cursor:pointer;
+}
+
+#delPict{
+	margin-top:20px;
+	border: none;
+	border-radius: 5px;
+	width: 200px;
+	height: 50px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#delPict:hover{
+	background-color: darkgrey;
+	color:white;
+	transition : 0.5s;
+}
+
+/* 작성자의 마이페이지 및 쪽지보내기 탭 컨트롤 */
+li {
+    padding: 5px;
+    list-style-type: none;
+}
+
+input[id^=replyMenuBtn] ,input[id^=menuBtn], input[id^=recommentMenuBtn]{
+   position: fixed;
+    left: -9999px;
+}
+
+label {
+    cursor: pointer;
+}
+
+
+.submenu {
+    display:none;
+    position : absolute;
+    width : 200px;
+    border : 1px solid darkgrey;
+    border-radius : 5px;
+    font-size: 0.8em;
+    font-weight : bold;
+    background-color: white;
+}
+
+#menuBtn:checked ~ .submenu {
+    display: block;
+}
+
+
+ul[class^=replySubmenu] {
+    display:none;
+    position : absolute;
+    width : 200px;
+    border : 1px solid darkgrey;
+    border-radius : 5px;
+    font-size: 0.8em;
+    font-weight : bold;
+    background-color: white;
+}
+
+
+input[id^=replyMenuBtn]:checked ~ ul[class^=replySubmenu] {
+    display: block;
+}
+
+
+ul[class^=recommentSubmenu] {
+    display:none;
+    position : absolute;
+    width : 200px;
+    border : 1px solid darkgrey;
+    border-radius : 5px;
+    font-size: 0.8em;
+    font-weight : bold;
+    background-color: white;
+}
+
+
+input[id^=recommentMenuBtn]:checked ~ ul[class^=recommentSubmenu] {
+    display: block;
+}
+
+
+p[id^=popClose]:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+
+#registerTable{
+	display : none;
+	position:absolute;
+	top : 25%;
+	left : 33%;
+	border : 2px solid orange;
+	text-align: center;
+	background-color: white;
+	padding : 20px 50px;
+	border-radius: 20px;
+}
+
+#registerTable td {
+	padding : 10px;
+	font-weight: bold;
+	color : darkgrey;
+}
+
+#registerTable td input {
+	padding : 5px;
+	border : 2px solid darkgrey;
+	border-radius : 5px;
+	font-weight: bold;
+	color : orange;
+}
+
+#registerTable td img{
+	border : 3px solid darkgrey;
+	border-radius : 5px;
+}
+
+#submitBtn {
+	border: none;
+	border-radius: 5px;
+	width: 200px;
+	height: 50px;
+	font-size: 20px;
+	font-weight: bold;
+}
+#submitBtn:hover {
+	background-color: orange;
+	color:white;
+	transition : 0.5s;
+	cursor: pointer;
+}
+

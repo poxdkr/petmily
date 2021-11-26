@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="KnowhowDAO">
+	<!-- 노하우 게시글 입력 쿼리 -->
+	<insert id="insertKnowhow" parameterType="knowhow">
+		INSERT INTO BOARD (BIDX, MIDX, BTITLE, BTEXT, BPICT1, BOARDCATE, BREGDATE, ALARM) 
+		VALUES ((SELECT NVL(MAX(BIDX),0)+1 FROM BOARD), 
+				#{midx}, #{btitle}, #{btext}, #{bpict1}, #{boardcate}, SYSDATE, 0)
+	</insert>
+	
+	<!-- 노하우 게시글 수정 쿼리 -->
+	<update id="updateKnowhow" parameterType="knowhow">
+		UPDATE BOARD 
+		   SET BTITLE = #{btitle}, 
+		       BTEXT = #{btext},
+		       BPICT1 = #{bpict1},
+		       BOARDCATE = #{boardcate}
+		 WHERE BIDX = #{bidx}
+	</update>
+	
+	<!-- 노하우 게시글 삭제 쿼리 -->
+	<delete id="deleteKnowhow" parameterType="knowhow">
+		DELETE FROM BOARD WHERE BIDX = #{bidx}
+	</delete>
+	
+	<!-- 노하우 게시글 상세보기 쿼리 -->
+	<select id="getKnowhow" parameterType="knowhow" resultType="knowhow">
+		SELECT B.*, M.MNICKNAME, M.MPHOTO FROM 
+			BOARD B, MEMBER M
+			WHERE B.MIDX = M.MIDX
+		    AND B.BIDX = #{bidx}
+	</select>
+	
+	<!-- 노하우 게시글 리스트 쿼리 -->
+	<select id="getKnowhowList" parameterType="knowhow" resultType="knowhow">
+		SELECT B.*, (SELECT COUNT(*) FROM LIKES WHERE B.BIDX = BIDX) AS LIKECNT
+		FROM BOARD B
+		WHERE 1=1
+		<if test="searchKeyword != null">
+			AND BTITLE LIKE '%'|| #{searchKeyword} ||'%'
+		</if>
+		AND BOARDCATE BETWEEN 4 AND 5
+		ORDER BY BREGDATE DESC
+	</select>
+	
+	<!-- 노하우 게시글 리스트 쿼리 (강아지/고양이 선택) -->
+	<select id="getKnowhowListType" parameterType="knowhow" resultType="knowhow">
+		SELECT B.*, (SELECT COUNT(*) FROM LIKES WHERE B.BIDX = BIDX) AS LIKECNT
+		FROM BOARD B
+		WHERE BOARDCATE = #{boardcate}
+		ORDER BY BREGDATE DESC
+	</select>
+	
+	<!-- 노하우 게시글 총 개수 구하기 -->
+	<select id="getKnowhowCount" parameterType="knowhow" resultType="int">
+		SELECT COUNT(*) FROM BOARD
+		WHERE BOARDCATE BETWEEN 4 AND 5
+		<if test="boardcate != 0">
+			AND BOARDCATE = #{boardcate}
+		</if>
+	</select>
+	
+	<!-- 좋아요가 가장 많이 눌린 노하우 게시글 조회(3개) -->
+	<select id="getKnowhowListTop" resultType="knowhow">
+		<![CDATA[
+		SELECT B.*, L.LIKECNT FROM 
+		BOARD B, (SELECT BIDX, COUNT(*) AS LIKECNT  FROM LIKES
+		GROUP BY BIDX
+		ORDER BY LIKECNT DESC) L
+		WHERE B.BIDX = L.BIDX
+		AND B.BOARDCATE BETWEEN 4 AND 5
+		AND ROWNUM < 4
+		]]>
+	</select>
+	
+	<!-- 좋아요가 가장 많이 눌린 게시글 조회(3개) -->
+	<select id="getBoardListTop" resultType="knowhow">
+		<![CDATA[
+		SELECT B.*, L.LIKECNT FROM 
+		BOARD B, (SELECT BIDX, COUNT(*) AS LIKECNT  FROM LIKES
+		GROUP BY BIDX
+		ORDER BY LIKECNT DESC) L
+		WHERE B.BIDX = L.BIDX
+		AND B.BOARDCATE BETWEEN 1 AND 3
+		AND ROWNUM < 4
+		]]>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+

@@ -10,7 +10,14 @@
 	</settings>
 	
 	<typeAliases>
-		<!-- 필요한 TypeAlias는 제작후 주석달아놓도록 할 것. -->
+		<typeAlias type="com.project.petmily.knowhow.KnowhowVO" alias="knowhow"/>
+		<typeAlias type="com.project.petmily.comment.CommentVO" alias="comment" />
+		<typeAlias type="com.project.petmily.withpet.WithpetVO" alias="withpet" />
+		<typeAlias type="com.project.petmily.like.LikeVO" alias="like" />
+		<!-- 광고 상품 목록 -->
+		<typeAlias type="com.project.petmily.advertise.AdvertiseVO" alias="advertise"/>
+		<!-- 회원 -->
+		<typeAlias type="com.project.petmily.member.MemberVO" alias="member"/>
 	</typeAliases>
 	
 	<mappers>

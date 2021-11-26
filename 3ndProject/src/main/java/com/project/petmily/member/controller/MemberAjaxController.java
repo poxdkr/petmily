@@ -17,9 +17,18 @@ public class MemberAjaxController {
 	
 	@RequestMapping(value = "/getAjaxMember.do", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public MemberVO getJsonMember( MemberVO mvo){
+	public MemberVO getJsonMember(MemberVO mvo){
 		//System.out.println("mvo : " + mvo);
 		MemberVO member = memberService.getMember(mvo); 
+		//System.out.println("member : " + member);
+		return member;
+	}
+	
+	@RequestMapping(value = "/getMemberByMid.do", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public MemberVO getJsonMemberByMid(MemberVO mvo){
+		//System.out.println("mvo : " + mvo);
+		MemberVO member = memberService.getMemberByMid(mvo); 
 		//System.out.println("member : " + member);
 		return member;
 	}
@@ -27,8 +36,8 @@ public class MemberAjaxController {
 	@RequestMapping(value="getAjaxMemberLogin.do", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public MemberVO getAjaxMemberLogin (MemberVO mvo,HttpSession session) {
-		System.out.println("mvo : " + mvo);
-		MemberVO member = memberService.getMember(mvo); 
+		//System.out.println("mvo : " + mvo);
+		MemberVO member = memberService.getMemberByMid(mvo); 
 		//해당 member가 null이 아닐 경우
 		if(member != null) {
 			session.setAttribute("user", member);

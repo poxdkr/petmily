@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="commentDAO">
+	
+	<insert id="insertComment" parameterType="comment">
+		INSERT INTO REPLY (RIDX, BIDX, MIDX, RCONTENT, RREGDATE) 
+		VALUES ((SELECT NVL(MAX(RIDX),0)+1 FROM REPLY), 
+				#{bidx}, #{midx}, #{rcontent}, SYSDATE )
+	</insert>
+	
+	<delete id="deleteComment" parameterType="comment">
+		DELETE FROM REPLY WHERE RIDX = #{ridx}
+	</delete>
+	
+	<select id="getCommentList" parameterType="comment" resultType="comment">
+		SELECT R.*, M.MNICKNAME FROM
+		REPLY R, MEMBER M
+	   	 WHERE R.MIDX = M.MIDX
+		 AND BIDX = #{bidx}
+		 ORDER BY RREGDATE ASC
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+

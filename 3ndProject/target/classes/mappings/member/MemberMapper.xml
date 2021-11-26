@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="member">
+	
+	<select id="getMemberList" resultType="member">
+		<![CDATA[
+			SELECT MIDX, MEMAIL, MNICKNAME, MPHOTO, MLEVEL, MDATE, MPHONE, MNAME
+				FROM(
+				    SELECT 
+				    ROWNUM RN, MIDX, MEMAIL, MNICKNAME, MPHOTO, MLEVEL, TRUNC(SYSDATE - TO_DATE(MREGDATE)) AS "MDATE", MPHONE, MNAME
+				    FROM MEMBER
+				    WHERE ROWNUM <= #{pageNum} * #{amount} 
+		]]>			
+				<if test="keyword != null">
+					AND (MEMAIL LIKE '%'||#{keyword }||'%' 
+					OR MNICKNAME LIKE '%'||#{keyword }||'%')
+				</if>    
+				    
+		<![CDATA[		    
+				)
+				WHERE RN > (#{pageNum}-1) * #{amount}
+		]]> 
+	</select>
+	
+	<select id="getMember" parameterType="member" resultType="member">
+	SELECT MIDX, MEMAIL, MNICKNAME, MPHOTO, MLEVEL, TRUNC(SYSDATE - TO_DATE(MREGDATE)) AS "MDATE", MPHONE
+		FROM MEMBER
+		WHERE MIDX = #{midx}
+	</select>
+	
+	<!-- 일반 회원 리스트 -->	
+	<select id="getFilterUserList1" resultType="member">
+		<![CDATA[
+			SELECT MIDX, MEMAIL, MNICKNAME, MPHOTO, MLEVEL, MDATE
+				FROM(
+				    SELECT 
+				    ROWNUM RN, MIDX, MEMAIL, MNICKNAME, MPHOTO, MLEVEL, TRUNC(SYSDATE - TO_DATE(MREGDATE)) AS "MDATE"
+				    FROM MEMBER 
+				    WHERE ROWNUM <= #{pageNum} * #{amount} AND MLEVEL = 3	    
+				)
+				WHERE RN > (#{pageNum}-1) * #{amount}
+		]]> 
+	</select>
+		
+	<!-- 탈퇴 예정 회원 리스트 -->	
+	<select id="getFilterUserList2" resultType="member">
+		<![CDATA[
+			SELECT MIDX, MEMAIL, MNICKNAME, MPHOTO, MLEVEL, MDATE
+				FROM(
+				    SELECT 
+				    ROWNUM RN, MIDX, MEMAIL, MNICKNAME, MPHOTO, MLEVEL, TRUNC(SYSDATE - TO_DATE(MREGDATE)) AS "MDATE"
+				    FROM MEMBER 
+				    WHERE ROWNUM <= #{pageNum} * #{amount} AND MLEVEL = 4	    
+				)
+				WHERE RN > (#{pageNum}-1) * #{amount}
+		]]> 
+	</select>
+	<!-- 회원 수정 -->
+	<update id="updateMember" parameterType="member">
+		UPDATE MEMBER 
+		  SET MNICKNAME = #{mnickname},
+		      MEMAIL = #{memail},
+		      MLEVEL = #{mlevel},
+		      MPHONE = #{mphone}
+		WHERE MIDX = #{midx}
+	</update>
+	
+	<!-- 회원 삭제 -->
+	<delete id="deleteMember" parameterType="member">
+		DELETE FROM MEMBER
+		WHERE MIDX = #{midx}
+	</delete>
+	<!-- 전체 게시글 수 -->
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*) FROM MEMBER WHERE MIDX > 0
+		<if test="keyword != null">
+			AND (MEMAIL LIKE '%'||#{keyword }||'%' 
+			OR MNICKNAME LIKE '%'||#{keyword }||'%')
+		</if> 
+	</select>
+	
+	<!-- ==========황균이형============== -->
+	<select id="getMemberListAll" resultType="com.project.petmily.member.MemberVO" parameterType="com.project.petmily.member.MemberVO">
+	SELECT * FROM MEMBER ORDER BY MIDX
+	</select>
+
+	<insert id="registMember"  parameterType="com.project.petmily.member.MemberVO">
+	INSERT INTO MEMBER(MIDX,MID,PWD,MNAME,MPHONE,MEMAIL,MNICKNAME,MPHOTO,MLEVEL)
+	VALUES(
+	(SELECT NVL(MAX(MIDX),0)+1 FROM MEMBER),#{mid },#{pwd },#{mname },#{mphone },#{memail },#{mnickname },#{mphoto },3
+	)
+	</insert>
+	
+	<update id="updateMyInfo"   parameterType="com.project.petmily.member.MemberVO">
+	UPDATE MEMBER SET
+	MNICKNAME = #{mnickname},
+	MEMAIL = #{memail},
+	MPHONE = #{mphone}
+	WHERE MIDX=#{midx}
+	</update>
+	
+	<update id="memberOut" parameterType="com.project.petmily.member.MemberVO">
+	UPDATE MEMBER SET
+	MLEVEL=4
+	WHERE MIDX=#{midx }
+	</update>
+	
+	<select id="getMemberByMid" resultType="com.project.petmily.member.MemberVO" parameterType="com.project.petmily.member.MemberVO">
+		SELECT * FROM MEMBER where mid = #{mid}
+	</select>
+</mapper>

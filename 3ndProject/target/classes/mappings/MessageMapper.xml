@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="messageDAO">
+
+<!-- 메시지 리스트 가져오기 -->
+<select id="message_list" parameterType="com.project.petmily.message.MessageVO" resultType="com.project.petmily.message.MessageVO">
+	SELECT A.MSGIDX    AS MSGIDX
+	     , A.ROOM      AS ROOM
+	     , A.SEND_MIDX AS SEND_MIDX
+	     , B.MNICKNAME AS SEND_NICK
+	     , A.RECV_MIDX AS RECV_MIDX
+	     , C.MNICKNAME AS RECV_NICK
+	     , A.SEND_TIME AS SEND_TIME
+	     , A.READ_TIME AS READ_TIME
+	     , A.CONTENT   AS CONTENT
+	     , A.READ_CHK  AS READ_CHK
+	FROM   MESSAGE A
+	     , MEMBER  B
+	     , MEMBER  C
+	WHERE  A.SEND_MIDX = B.MIDX
+	AND    A.RECV_MIDX = C.MIDX
+	AND    A.MSGIDX IN (
+	            SELECT MAX(MSGIDX)
+	            FROM   MESSAGE
+	            GROUP BY ROOM
+	       ) 
+	AND    (A.SEND_MIDX = #{midx} OR A.RECV_MIDX = #{midx})
+	ORDER BY A.MSGIDX DESC
+</select>
+
+<!-- 상대방 프로필 이미지 가져오기 -->
+<select id="get_other_profile" parameterType="com.project.petmily.message.MessageVO" resultType="String">
+    SELECT MPHOTO AS PROFILE FROM MEMBER
+    <choose>
+        <when test="send_midx == midx">
+            WHERE MIDX = #{recv_midx}
+        </when>
+        <otherwise>
+            WHERE MIDX = #{send_midx}
+        </otherwise>
+    </choose>
+</select>
+
+<!-- 안 읽은 메시지 갯수 가져오기 -->
+<select id="count_unread" parameterType="com.project.petmily.message.MessageVO" resultType="Int">
+    SELECT COUNT(MSGIDX) 
+    FROM   MESSAGE 
+    WHERE  RECV_MIDX=#{midx} 
+    AND    READ_CHK=0
+    <if test="room != 0">
+    AND    ROOM=#{room}
+    </if>
+</select>
+
+<!-- 메시지 내용 가져오기 -->
+<select id="room_content_list" parameterType="com.project.petmily.message.MessageVO" resultType="com.project.petmily.message.MessageVO">
+ 	SELECT A.MSGIDX
+    	 , A.ROOM
+    	 , A.SEND_MIDX AS SEND_MIDX
+    	 , A.RECV_MIDX AS RECV_MIDX
+    	 , B.MNICKNAME AS SEND_NICK
+    	 , C.MNICKNAME AS RECV_NICK
+    	 , A.SEND_TIME
+    	 , A.READ_TIME
+    	 , A.CONTENT
+    	 , A.READ_CHK
+    	 , A.DELETE_CHK
+    	 , B.MPHOTO AS PROFILE
+    FROM   MESSAGE A 
+    LEFT OUTER JOIN MEMBER B ON A.SEND_MIDX = B.MIDX
+    LEFT OUTER JOIN MEMBER C ON A.RECV_MIDX = C.MIDX
+    <choose>
+        <when test="room != 0">
+            WHERE ROOM=#{room}
+        </when>
+        <otherwise>
+            WHERE (RECV_MIDX = #{recv_midx} AND SEND_MIDX = #{midx})
+            OR    (SEND_MIDX = #{recv_midx} AND RECV_MIDX = #{midx})
+        </otherwise>
+    </choose>
+	ORDER BY MSGIDX
+</select>
+
+<!-- 메세지 읽음 처리 -->
+<update id="message_read_chk" parameterType="com.project.petmily.message.MessageVO">
+    UPDATE MESSAGE SET READ_CHK=1
+    <choose>
+        <when test="room != 0">
+            WHERE ROOM=#{room} 
+              AND READ_CHK=0 
+              AND RECV_MIDX=#{midx}
+        </when>
+        <otherwise>
+            WHERE SEND_MIDX=#{recv_midx} 
+              AND READ_CHK=0 
+              AND RECV_MIDX=#{midx}
+        </otherwise>
+    </choose>
+</update>
+
+<!-- 메시지 리스트에서 메시지 보내기 -->
+<insert id="messageSendInlist" parameterType="com.project.petmily.message.MessageVO">
+     <choose>
+        <when test="room != 0">
+            INSERT INTO MESSAGE 
+            VALUES 
+            	 (
+            	   (SELECT NVL(MAX(MSGIDX), 0)+1 FROM MESSAGE)
+            	 , #{room}
+            	 , #{send_midx}
+            	 , #{recv_midx}
+            	 , SYSDATE
+            	 , SYSDATE
+            	 , #{content}
+            	 , 0
+            	 , 0
+            	 )
+        </when>
+        <otherwise>
+            INSERT INTO MESSAGE
+            VALUES
+            	 (
+            	   (SELECT NVL(MAX(MSGIDX), 0)+1 FROM MESSAGE)
+            	 , #{room}
+            	 , #{send_midx}
+            	 , #{recv_midx}
+            	 , SYSDATE
+            	 , SYSDATE
+            	 , #{content}
+            	 , 0
+            	 , 0
+            	 )
+        </otherwise>
+    </choose>
+</insert>
+
+<!-- room 번호 최댓값 구하기 -->
+<select id="max_room"  parameterType="com.project.petmily.message.MessageVO" resultType="Int">
+    SELECT NVL(MAX(ROOM), 0) AS ROOM 
+    FROM   MESSAGE
+</select>
+
+<!-- 메시지 이력이 있는지 검색 -->
+<select id="exist_chat" parameterType="com.project.petmily.message.MessageVO" resultType="Int">
+	SELECT COUNT(MSGIDX) 
+	FROM   MESSAGE 
+    WHERE (RECV_MIDX = #{recv_midx} AND SEND_MIDX=#{send_midx}) 
+       OR (SEND_MIDX = #{recv_midx} AND RECV_MIDX=#{send_midx})
+</select>
+
+<!-- 기존 메시지 내역의 room 번호를 가져옴 -->
+<select id="select_room"  parameterType="com.project.petmily.message.MessageVO" resultType="Int">
+    SELECT DISTINCT ROOM 
+    FROM   MESSAGE
+    WHERE (RECV_MIDX = #{recv_midx} AND SEND_MIDX=#{send_midx}) 
+       OR (SEND_MIDX = #{recv_midx} AND RECV_MIDX=#{send_midx})
+</select>
+
+<!-- Null 데이터 삭제 -->
+<delete id="deleteNull">
+	DELETE
+	FROM   MESSAGE
+	WHERE  CONTENT IS NULL
+</delete>
+
+<!-- 메시지 삭제(업데이트) -->
+<update id="deleteMessage" parameterType="com.project.petmily.message.MessageVO">
+	UPDATE MESSAGE
+	SET	   CONTENT = '삭제된 메시지입니다.',
+		   DELETE_CHK = 1
+	WHERE  MSGIDX = #{msgidx}
+</update>
+
+<!-- 사람 검색 결과 midx 전송 -->
+<select id="search" parameterType="com.project.petmily.message.MessageVO" resultType="Int">
+	SELECT NVL(MAX(MIDX), 0) AS MIDX
+	FROM   MEMBER
+	WHERE  MNICKNAME = #{mnickname}
+</select>
+</mapper>

@@ -25,6 +25,7 @@ public class LikeAjaxController {
 	@RequestMapping("insertLike.do")
 	@ResponseBody
 	public void insertLike(@RequestBody LikeVO lvo) {
+		System.out.println("insertLikeVO vo : " + lvo);
 		likeService.insertLike(lvo);
 	}
 	

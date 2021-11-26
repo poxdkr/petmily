@@ -52,7 +52,16 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public void resetBoardAlarm(BoardVO bvo) {
 		boardDAO.resetBoardAlarm(bvo);
-		
+	}
+
+	@Override
+	public int getBoardCount(BoardVO bvo) {
+		return boardDAO.getBoardCount(bvo);
+	}
+
+	@Override
+	public List<BoardVO> getBoardListA(BoardVO bvo) {
+		return boardDAO.getBoardListA(bvo);
 	}
 
 

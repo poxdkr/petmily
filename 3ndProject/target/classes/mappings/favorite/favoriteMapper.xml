@@ -14,8 +14,8 @@
 </select>
 
 <insert id="insertFavorite"  parameterType="com.project.petmily.favorite.FavoriteVO">
-INSERT INTO FAVORITE (FIDX, MIDX, BIDX)
-VALUES((SELECT NVL(MAX(FIDX),0)+1 FROM FAVORITE), #{midx}, #{bidx})
+INSERT INTO FAVORITE (FIDX, MIDX, BIDX, BOARDCATE)
+VALUES((SELECT NVL(MAX(FIDX),0)+1 FROM FAVORITE), #{midx}, #{bidx}, #{boardcate})
 </insert>
 
 <delete id="deleteFavorite"  parameterType="com.project.petmily.favorite.FavoriteVO">

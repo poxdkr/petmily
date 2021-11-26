@@ -7,6 +7,7 @@ public interface BoardService {
 	//전체 리스트 불러오기
 	List<BoardVO> getBoardList();
 	
+	
 	//검색조건으로 보드 찾기 (사용자의 아이디 / 카테고리 / 제목) 
 	List<BoardVO> getBoardListByKeyword(BoardVO bvo);
 	
@@ -28,4 +29,10 @@ public interface BoardService {
 	//알람 리셋
 	void resetBoardAlarm(BoardVO bvo);
 	
+	/* ===========안민우 추가============= */
+	//게시글 수 구하기
+	int getBoardCount(BoardVO bvo);
+	
+	//게시글 리스트 
+	List<BoardVO> getBoardListA(BoardVO bvo);
 }

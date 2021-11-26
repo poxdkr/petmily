@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="faqDAO">
+	<select id="getFaqBoardList" resultType="com.project.petmily.faq.FaqVO">
+		SELECT * FROM FAQ
+	</select> 
+	
+	<select id="faqSearchList" parameterType="com.project.petmily.faq.FaqVO" resultType="com.project.petmily.faq.FaqVO">
+		SELECT * FROM FAQ
+			WHERE FTITLE LIKE '%'||#{ftitle }||'%'
+	</select>
+	
+	<select id="buttonFaqList" parameterType="com.project.petmily.faq.FaqVO" resultType="com.project.petmily.faq.FaqVO">
+		SELECT * FROM FAQ
+			WHERE FCATEGORY = #{fcategory }
+	</select>
+	<select id="getFaqBoard" parameterType="com.project.petmily.faq.FaqVO" resultType="com.project.petmily.faq.FaqVO">
+		SELECT * FROM FAQ
+			WHERE FIDX = #{fidx }
+	</select>
+	<insert id="insertFaq" parameterType="com.project.petmily.faq.FaqVO">
+		INSERT INTO FAQ (FIDX, FTITLE, FCONTENT, FCATEGORY)
+		VALUES ((SELECT NVL(MAX(FIDX), 0)+1 FROM FAQ), #{ftitle}, #{fcontent}, #{fcategory})
+	</insert>
+	<update id="updateFaq" parameterType="com.project.petmily.faq.FaqVO">
+		UPDATE FAQ 
+		  SET FCATEGORY = #{fcategory }, 
+		      FTITLE = #{ftitle},
+              FCONTENT = #{fcontent}
+		WHERE FIDX = #{fidx }
+	</update >
+	<delete id="deleteFaq" parameterType="com.project.petmily.faq.FaqVO">
+		DELETE FROM FAQ WHERE FIDX = #{fidx }
+	</delete>
+	
+</mapper>
